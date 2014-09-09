@@ -49,8 +49,8 @@ wam: wam_file_module.o wam_general_module.o wam_timopt_module.o wam_fre_dir_modu
 	wam_restart_module.o wam_initial_module.o wam_mpi_module.o wam_output_set_up_module.o \
 	wam_topo_module.o wam_radiation_module.o wam_nest_module.o wam_user_module.o \
 	wam_special_module.o read_topo_input.o wavemdl.o initmdl.o read_wam_user.o \
-	print_wam_status.o read_wind_input.o read_current_input.o wamodel.o read_boundary_input.o \
-	read_ice_input.o jafu.o wam_mpi_comp_module.o wam_assi_set_up_module.o \
+	print_wam_status.o read_wind_input_metno.o read_current_input.o wamodel.o read_boundary_input.o \
+	read_ice_input_metno.o jafu.o wam_mpi_comp_module.o wam_assi_set_up_module.o \
 	wam_assi_module.o wam_coordinate_module.o readsat.o chief.o
 	$(FC) $(MPIINC) $(FFLAGS) $^ -lmpi ${NCLIB} -lnetcdff -o $@ 
 
@@ -59,7 +59,7 @@ pnetcdf: wam_mpi_module.o wam_file_module.o wam_timopt_module.o \
 	wam_grid_module.o wam_current_module.o wam_special_module.o wam_nest_module.o \
 	wam_ice_module.o wam_output_module.o wam_print_module.o wam_general_module.o \
 	wam_output_set_up_module.o wam_mpi_comp_module.o wam_netcdf_module.o wam_coordinate_module.o \
-	read_current_input.o read_ice_input.o wam_topo_module.o read_topo_input.o jafu.o \
+	read_current_input.o read_ice_input_metno.o wam_topo_module.o read_topo_input.o jafu.o \
 	make_netcdf.o 
 	$(FC) $(MPIINC) $(FFLAGS) $^ -lmpi ${NCLIB} -lnetcdff -o $@ 
 
@@ -93,10 +93,10 @@ wam_boundary_module.o: wam_mpi_comp_module.o
 read_topo_input.o: wam_general_module.o
 
 # rules for creating objects that need netcdf
-read_wind_input.o: read_wind_input.f90
+read_wind_input_metno.o: read_wind_input_metno.f90
 	$(FC) $(MPIINC) $(FFLAGS) ${NCINC} ${NCLIB} -lnetcdff  -c -o $@ $<
 
-read_ice_input.o: read_ice_input.f90
+read_ice_input_metno.o: read_ice_input_metno.f90
 	$(FC) $(MPIINC) $(FFLAGS) ${NCINC} ${NCLIB} -lnetcdff  -c -o $@ $<
 
 wam_netcdf_module.o: wam_netcdf_module.f90
