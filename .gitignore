@@ -1,7 +1,7 @@
 # compiled source
 *.mod
 *.o
-abs/*
+*abs/*
 
 # log files
 *.log
