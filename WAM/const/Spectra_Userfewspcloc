@@ -1,0 +1,105 @@
+C
+C        INPUT OF PROGRAM PRINT_SPECTRA
+C        ==============================
+C
+C           **** DATES AND TIME STEPS FOR OUTPUT  ****
+C
+C        USER INFORMATION IS BEING READ BY SUB. READ__WAM_USER
+C        WITH THE PRESUMPTIONS THAT:
+C         1. EVERY LINE STARTING WITH 'C' OR 'c' IS A COMMENT LINE
+C         2. VALUES ARE PUT IN BELOW POSITIONS INDICATED WITH '-'
+C         3. IF VALUES ARE NOT SPECIFIED DEFAULT VALUES WILL BE USED.
+C         4. VALUES MARKED BY C => MUST BE DEFINED BY THE USER.
+C         5. DEFAULT VALUES ARE DEFINED BY SUB. CLEAR_PRINT_USER_MODULE
+C            CONTAINED IN WAM_PRINT_USER_MODULE.
+C
+C ------------------------------------------------------------------------------
+C
+C           **** PERIOD OF MODEL RUN ****
+C
+C =>    CDATEA  START DATE OF  RUN  (YYYYMMDDHHMMSS)
+C =>    CDATEE  END   DATE OF  RUN  (YYYYMMDDHHMMSS)
+C       IDELDO  OUTPUT TIME STEP                       DEFAULT 1
+C       U       TIME UNIT: M OR m MINUTE; H OR h HOUR; DEFAULT H
+C                                                                               
+C        CDATEA          CDATEE   IDELDO  U                                           
+C--------------  --------------  -------  -
+ 20140904000000  20140906180000        3  H
+C
+C ------------------------------------------------------------------------------
+C
+C           **** OUTPUT AT GIVE TIMES ****
+C
+C   SPECIFY A LIST WITH UP TO 20 DATES (YYYYMMDDHHMMSS) AND CLOSE THE
+C   LIST BY 'END'. IF THE LIST INCLUDES ANYTHING ELSE THAN 'END'
+C   THE OUTPUT TIME STEPS IDELINT AND IDELSPT SPECIFIED ABOVE ARE IGNORED.
+C
+CYYYYMMDDHHMMSS  YYYYMMDDHHMMSS  YYYYMMDDHHMMSS  YYYYMMDDHHMMSS
+C--------------  --------------  --------------  --------------
+C 20140904000000  20140904120000  20140904180000  20140905000000  
+C                                                                               
+ END      THE INPUT LIST HAS TO BE CLOSED BY THIS END LINE
+C                                                                               
+C ------------------------------------------------------------------------------
+C
+C           **** OUTPUT SITES ****                                              
+C                                                                               
+C   SPECIFY A LIST WITH UP TO 20 SITES AND CLOSE THE LIST BY 'END'.
+C
+C           XLONG  = LONGITUDE IN DEGREE                                       
+C           XLAT   = LATITUDE IN DEGREE                                        
+C           NAME   = SITE NAME (UP TO 20 CHARACTER)                            
+C     COORDINATE FORMAT:  REAL DEGREES F13.8   OR
+C                         TEXTSTRING -DDD:MM:SS.SS OR +DDD:MM:SS.SS
+C
+C   XLONG         XLAT       NAME
+C------------- ------------- ---------+---------+
+   19.621         -2.812        st5 
+   19.882         -2.744       st20   
+   15.00          10.00        StA17  
+   15.00           6.00        StA16
+   15.00          -9.50        StAt1
+   20.004         -2.713       st27 
+   21.063         -2.437       st88 
+   15.418         12.804       st1333 
+   16.216          9.864       st1164 
+C                                                                               
+ END      THE INPUT LIST HAS TO BE CLOSED BY THIS END LINE                                                      
+C                                                                               
+C ------------------------------------------------------------------------------
+C
+C           **** SPECTRA TO BE PRINTED ****
+C
+C      P  PRINT OUTPUT:    N  OR n : NO OUTPUT ,      DEFAULT Y : OUTPUT
+C
+CP                                   P
+C-                                   -
+ Y   SPECTRA OF TOTAL SEA            N  SEA SPECTRA
+ N   SWELL SPECTRA                   N  DUMMY
+C
+C ------------------------------------------------------------------------------
+C                                                                               
+C                 **** INPUT DATA FILE ****
+C                                                                               
+C  =>   CDATEF  DATE OF FIRST FILE NAME (YYYYMMDDHHMMSS)                      
+C       IDELFI  FILE TIME STEP (IF <=0 A NEW FILE IS NOT USED);  DEFAULT 24                                
+C       U       TIME UNIT: M OR m MINUTE; H OR h HOUR;           DEFAULT H.
+C                                                                               
+C        CDATEF   IDELFI  U                                                   
+C--------------  -------  -                                                  
+ 20140904000000        3  H                                                 
+C                                                                               
+C           **** INPUT AND OUTPUT FILE NAMES ****    
+C
+C    THE PROGRAM OPENS AUTOMATICALLY THE FOLLOWING FILES, WHICH ARE 
+C    DEFINED IN "PRINT_GRID_FILE.f90":
+C
+C       FILE05 = 'Spectra_User' TO READ THIS INPUT FILE.
+C       FILE06 = 'Spectra_Prot' TO WRITE A PROTOCOL.
+C    
+C  => SPECTRA FILE IDENTIFIER (UNIT = IU01, UNFORMATED INPUT)
+C---------+---------+---------+---------+---------+---------+---------+         
+ ../OUT
+C ------------------------------------------------------------------------------
+C         END OF USER INPUT PROGRAM PRINT_SPECTRA.
+C ------------------------------------------------------------------------------

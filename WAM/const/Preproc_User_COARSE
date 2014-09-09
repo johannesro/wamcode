@@ -1,0 +1,146 @@
+C
+C       USER INPUT OF PREPROC.           CREATED 20/2/2010
+C       ======================
+C
+C
+C        USER INFORMATION IS BEING READ BY SUB. READ__PREPROC_USER
+C        WITH THE PRESUMPTIONS THAT:
+C         1. EVERY LINE STARTING WITH 'C' OR 'c' IS A COMMENT LINE
+C         2. VALUES ARE PUT IN BELOW POSITIONS INDICATED WITH '-'
+C         3. IF VALUES ARE NOT SPECIFIED DEFAULT VALUES WILL BE USED.
+C         4. VALUES MARKED BY C => MUST BE DEFINED BY THE USER.
+C         5. DEFAULT VALUES ARE DEFINED BY SUB. CLEAR_PREPROC_USER_MODULE
+C            CONTAINED IN PREPROC_USER_MODULE.
+C
+C ------------------------------------------------------------------------------
+C
+C           **** HEADER OF MODEL RUN   ****
+C
+C     HEADER  CHARACTER*80  TEXT TO BE PRINTED
+C
+CHEADER
+C---------+---------+---------+---------+---------+---------+---------+---------
+ WAM10 WAVE MODEL RUN
+C
+C ------------------------------------------------------------------------------
+C
+C    1. FREQUENCY AND DIRECTION GRID DEFINITIONS
+C
+C     ML        INTEGER    NUMBER OF FREQUENCIES.  (DEFAULT 25)
+C     KL        INTEGER    NUMBER OF DIRECTIONS.   (DEFAULT 24)
+C     FR(1)     REAL       LOWEST FREQUENCY [HZ].  (DEFAULT .04177248)
+C
+C   ML    KL      FR(1)
+C----- ----- ----------
+    36    36  .03452300
+C
+C ------------------------------------------------------------------------------
+C
+C    2. OUTPUT GRID DEFINITIONS.
+C
+C      REDUCED   F : THE LONGITUTE INCREMENT IS CONSTANT    (DEFAULT)
+C                T : THE LONGITUTE INCREMENT IS INCREASED WITH LATITUDE. 
+C
+C   REDUCED
+C----------
+          F      
+C
+C =>  SOUTH     REAL      SOUTHERN LONGITUDE OF GRID   [DEG].
+C =>  NORTH     REAL      NORTHERN LONGITUDE OF GRID   [DEG].
+C =>  WEST      REAL      WESTERN LATITUDE OF GRID     [DEG].
+C =>  EAST      REAL      EASTERN LATITUDE OF GRID     [DEG].
+C
+C        SOUTH         NORTH          WEST          EAST
+C------------- ------------- ------------- -------------
+        -13.25         26.65          5.75         30.45 
+C
+C =>  NX        INTEGER   NUMBER OF LATITUDES.
+C =>  NY        INTEGER   NUMBER OF LONGITUDES.
+C =>  XDELLA    REAL      GRID INCREMENT FOR LATITUDE AT EQUATOR  [DEG].
+C =>  XDELLO    REAL      GRID INCREMENT FOR LONGITUDE [DEG].
+C
+C       NX        NY                XDELLA        XDELLO
+C------------- ------------- ------------- -------------
+           248           400           0.1           0.1
+C
+C     LAND      REAL    DEPTH >= LAND ARE SEAPOINTS [M]. (DEFAULT 0)
+C
+C      LAND
+C----------
+         0.
+C
+C ------------------------------------------------------------------------------
+C
+C    3. AREAS TO BE CHANGED IN GRID:
+C
+C           SPECIFY A LIST WITH UP TO 20 AREAS.
+C
+C     XOUTS     REAL       SOUTHERN-MOST LATITUDE [DEG].
+C     XOUTN     REAL       NORTHERN-MOST LATITUDE [DEG].
+C     XOUTW     REAL       WESTERN-MOST LONGITUDE [DEG].
+C     XOUTE     REAL       EASTERN-MOST LONGITUDE [DEG].
+C     XOUTD     REAL       NEW DEPTH IN METRES (-999.0 IS LAND)
+C
+C        XOUTS         XOUTN         XOUTW         XOUTE      XOUTD
+C------------- ------------- ------------- ------------- ----------
+     -9.800000    -10.000000     10.000000     10.800000     3000.0
+ END      THE INPUT LIST HAS TO BE CLOSED BY THIS END LINE
+C
+C ------------------------------------------------------------------------------
+C
+C    4. MODEL OPTIONS:
+C
+C         ITEST  INTEGER  TEST OUTPUT LEVEL (DEFAULT 0)
+C
+C ITEST
+C------
+      5
+C
+C ------------------------------------------------------------------------------
+C
+C    5. NESTED GRIDS:
+C
+C   FOR A COARSE GRID RUN SPECIFY FOR EACH NEST:
+C     SOUTH      REAL      SOUTHERN LONGITUDE OF NEST [DEG].
+C     NORTH      REAL      NORTHERN LONGITUDE OF NEST [DEG].
+C     WEST       REAL      WESTERN LATITUDE OF NEST   [DEG].
+C     EAST       REAL      EASTERN LATITUDE OF NEST   [DEG].
+C     NEST NAME  CHARACTER NAME OF NEST
+C     nestcode   integer   0 : binary, 1 : ascii
+C
+C      SOUTH        NORTH         WEST            EAST   NEST NAME      NESTCODE
+C------------- ------------- ------------- ------------- ---------+---------+--+
+     -13.25000     26.650000      5.750000      30.45000 SAMEGRID             1
+ END      THE INPUT LIST HAS TO BE CLOSED BY THIS END LINE
+C
+C   FOR A FINE GRID RUN SPECIFY:
+C      PREPROC OUTPUT FILE NAME FROM THE COARSE GRID PREPROC.
+C      IF A BLANK LINE IS GIVEN A FINE GRID IS NOT GENERATED.
+C
+C  PREPROC OUTPUT FILE NAME FROM THE COARSE GRID PREPROC.
+C---------+---------+---------+---------+---------+---------+---------+---------
+
+C
+C ------------------------------------------------------------------------------
+C
+C    6. INPUT AND OUTPUT FILE NAMES:
+C
+C    THE PROGRAM OPENS AUTOMATICALLY THE FOLLOWING FILES, WHICH ARE
+C    DEFINED IN PROGRAM PREPROC:
+C
+C    UNIT = IU05 = 5  FILE = 'Preproc_User' TO READ THIS INPUT FILE.
+C    UNIT = IU06 = 6  FILE = 'Preproc_Prot' TO WRITE A PROTOCOL.
+C
+C    ALL THE FOLLOWING FILES HAVE TO BE DEFINED BELOW.
+C
+C => DEPTH DATA FILE NAME (DEFAULT: -NONE-).
+C---------+---------+---------+---------+---------+---------+---------+---------
+ TOPOCAT.DAT
+C
+C   PREPROC OUTPUT FILE NAME (DEFAULT: 'Grid_Info').
+C---------+---------+---------+---------+---------+---------+---------+---------
+ Grid_info_COARSE
+C
+C ------------------------------------------------------------------------------
+C                 END OF USER INPUT OF PREPROC
+C ------------------------------------------------------------------------------

@@ -1,0 +1,36 @@
+#!/bin/sh
+#
+#==>  WAM post-processing pnetcdf
+#
+#     Arno Behrens (May 2012)
+#
+#PBS -o /home/metno/carrasco/MYWAVE_WAM/WAM10/jobs/pnetcdf.log
+#PBS -e /home/metno/carrasco/MYWAVE_WAM/WAM10/jobs/pnetcdf.log
+#PBS -N  pnetcdf
+# Account to run job (change the account name: See Accounting above)
+#PBS -A nn2857k
+#PBS -l select=1:ncpus=1
+#PBS -l walltime=10:00:00
+#
+#module load intelcomp/13.0.1  mpt/2.05  netcdf/4.1.3
+#module load intelcomp/13.0.1 mpt/2.06 netcdf/4.3.0
+module load intelcomp/13.0.1  netcdf/4.1.3
+
+WAMDIR=/home/metno/carrasco/MYWAVE_WAM/WAM10
+WORK=/work/carrasco/MyWaveWAM/WAM10
+
+cd ${WORK}/tempsg
+#
+cp ${WAMDIR}/const/nlnetcdf NETCDF_User
+cp ${WAMDIR}/abs/pnetcdf pnetcdf.exe
+#
+./pnetcdf.exe
+mv pnetcdf_prot ${WAMDIR}/dayfiles/pnetcdf_prot_c
+mv WAVE* ..
+rm NETCDF_User pnetcdf.exe
+#
+# ===================================================================
+#  NETCDF FILES HAVE BEEN CREATED AND SAVED.
+#  END OF JOB PNETCDF.
+# ===================================================================
+#

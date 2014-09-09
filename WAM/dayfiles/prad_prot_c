@@ -1,0 +1,30 @@
+  ++++++++++++++++++++++++++++++++++++++++++++++++++++
+  +                                                  +
+  +     INFORMATION FROM SUB. READS_RADIATION_USER   +
+  +     ==========================================   +
+  +                                                  +
+  + THE RADIATION USER FILE COULD NOT BE OPENED.     +
+  + RADIATION USER FILE NAME IS FILE05 = Radiation_User
+  +         UNIT IS         IU05 =           55
+  +                                                  +
+  *  PROGRAM TRIES FOR NAMELIST IN STANDARD INPUT    +
+  +                                                  +
+  ++++++++++++++++++++++++++++++++++++++++++++++++++++
+  ****************************************************
+  *                                                  *
+  *     FATAL ERROR IN SUB. READ_PRINT_NAMELIST      *
+  *     =======================================      *
+  *                                                  *
+  * READ ERROR ON NAMLIST FROM STANDARD INPUT        *
+  *                                                  *
+  *         PROGRAM ABORTS  PROGRAM ABORTS           *
+  *                                                  *
+  ****************************************************
+  *****************************************************
+  *                                                   *
+  *      PROGRAM ABORTS  PROGRAM ABORTS               *
+  *      ==============================               *
+  *                                                   *
+  *         CHECK MESSAGE PRINTED ABOVE.              *
+  *                                                   *
+  *****************************************************

@@ -1,0 +1,899 @@
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 106852 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 13458 send requests using shared memory for collective calls
+ 1389 send requests using shared memory for point-to-point calls
+ 6 data buffers sent via shared memory for collective calls
+ 37029 data buffers sent via shared memory for point-to-point calls
+ 28387 message headers sent via shared memory for collective calls
+ 92943 message headers sent via shared memory for point-to-point calls
+ 42820 bytes sent via buffered shared memory for collective calls
+ 1204395456 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 4337 send requests using InfiniBand for collective calls
+ 2 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 158 data buffers sent via InfiniBand for point-to-point calls
+ 4337 message headers sent via InfiniBand for collective calls
+ 160 message headers sent via InfiniBand for point-to-point calls
+ 125649480 bytes sent via buffered InfiniBand for collective calls
+ 20456064 bytes sent via buffered InfiniBand for point-to-point calls
+ 125640640 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 1946578 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 5355 send requests using shared memory for collective calls
+ 2778 send requests using shared memory for point-to-point calls
+ 997 data buffers sent via shared memory for collective calls
+ 74058 data buffers sent via shared memory for point-to-point calls
+ 5360 message headers sent via shared memory for collective calls
+ 153071 message headers sent via shared memory for point-to-point calls
+ 14842 bytes sent via buffered shared memory for collective calls
+ 2375584516 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 9 send requests using InfiniBand for collective calls
+ 2 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 158 data buffers sent via InfiniBand for point-to-point calls
+ 9 message headers sent via InfiniBand for collective calls
+ 160 message headers sent via InfiniBand for point-to-point calls
+ 720 bytes sent via buffered InfiniBand for collective calls
+ 20456064 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 1866811 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 14517 send requests using shared memory for collective calls
+ 1391 send requests using shared memory for point-to-point calls
+ 3986 data buffers sent via shared memory for collective calls
+ 33695 data buffers sent via shared memory for point-to-point calls
+ 29446 message headers sent via shared memory for collective calls
+ 88311 message headers sent via shared memory for point-to-point calls
+ 42884 bytes sent via buffered shared memory for collective calls
+ 1227291472 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 3357 send requests using InfiniBand for collective calls
+ 1389 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 10560 data buffers sent via InfiniBand for point-to-point calls
+ 3357 message headers sent via InfiniBand for collective calls
+ 23829 message headers sent via InfiniBand for point-to-point calls
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 1757019 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 8713 send requests using shared memory for collective calls
+ 2778 send requests using shared memory for point-to-point calls
+ 998 data buffers sent via shared memory for collective calls
+ 67458 data buffers sent via shared memory for point-to-point calls
+ 8718 message headers sent via shared memory for collective calls
+ 139871 message headers sent via shared memory for point-to-point calls
+ 25462 bytes sent via buffered shared memory for collective calls
+ 2170289836 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 7 send requests using InfiniBand for collective calls
+ 2 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 158 data buffers sent via InfiniBand for point-to-point calls
+ 7 message headers sent via InfiniBand for collective calls
+ 160 message headers sent via InfiniBand for point-to-point calls
+ 672 bytes sent via buffered InfiniBand for collective calls
+ 20456064 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+ 8836 bytes sent via buffered InfiniBand for collective calls
+ 1272827016 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 2405129 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 5359 send requests using shared memory for collective calls
+ 2778 send requests using shared memory for point-to-point calls
+ 997 data buffers sent via shared memory for collective calls
+ 59538 data buffers sent via shared memory for point-to-point calls
+ 5364 message headers sent via shared memory for collective calls
+ 126671 message headers sent via shared memory for point-to-point calls
+ 14892 bytes sent via buffered shared memory for collective calls
+ 1930779376 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 4076533 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 5371 send requests using shared memory for collective calls
+ 2780 send requests using shared memory for point-to-point calls
+ 997 data buffers sent via shared memory for collective calls
+ 64124 data buffers sent via shared memory for point-to-point calls
+ 5376 message headers sent via shared memory for collective calls
+ 133899 message headers sent via shared memory for point-to-point calls
+ 14858 bytes sent via buffered shared memory for collective calls
+ 2067569092 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 9 send requests using InfiniBand for collective calls
+ 0 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 0 data buffers sent via InfiniBand for point-to-point calls
+ 9 message headers sent via InfiniBand for collective calls
+ 0 message headers sent via InfiniBand for point-to-point calls
+ 720 bytes sent via buffered InfiniBand for collective calls
+ 0 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+ 7 send requests using InfiniBand for collective calls
+ 2 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 158 data buffers sent via InfiniBand for point-to-point calls
+ 7 message headers sent via InfiniBand for collective calls
+ 160 message headers sent via InfiniBand for point-to-point calls
+ 672 bytes sent via buffered InfiniBand for collective calls
+ 20456064 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 3614979 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 8745 send requests using shared memory for collective calls
+ 2780 send requests using shared memory for point-to-point calls
+ 998 data buffers sent via shared memory for collective calls
+ 58844 data buffers sent via shared memory for point-to-point calls
+ 8750 message headers sent via shared memory for collective calls
+ 124659 message headers sent via shared memory for point-to-point calls
+ 25494 bytes sent via buffered shared memory for collective calls
+ 1889647036 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 7 send requests using InfiniBand for collective calls
+ 0 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 0 data buffers sent via InfiniBand for point-to-point calls
+ 7 message headers sent via InfiniBand for collective calls
+ 0 message headers sent via InfiniBand for point-to-point calls
+ 672 bytes sent via buffered InfiniBand for collective calls
+ 0 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+*** Dumping MPI internal resource statistics...
+
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 1858093 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 12076 send requests using shared memory for collective calls
+ 2778 send requests using shared memory for point-to-point calls
+ 999 data buffers sent via shared memory for collective calls
+ 62178 data buffers sent via shared memory for point-to-point calls
+ 12081 message headers sent via shared memory for collective calls
+ 129311 message headers sent via shared memory for point-to-point calls
+ 36135 bytes sent via buffered shared memory for collective calls
+ 2012897248 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 5 send requests using InfiniBand for collective calls
+ 2 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 3117687 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 5375 send requests using shared memory for collective calls
+ 2780 send requests using shared memory for point-to-point calls
+ 997 data buffers sent via shared memory for collective calls
+ 54884 data buffers sent via shared memory for point-to-point calls
+ 5380 message headers sent via shared memory for collective calls
+ 114099 message headers sent via shared memory for point-to-point calls
+ 14908 bytes sent via buffered shared memory for collective calls
+ 1725411292 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 7 send requests using InfiniBand for collective calls
+ 0 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 158 data buffers sent via InfiniBand for point-to-point calls
+ 5 message headers sent via InfiniBand for collective calls
+ 160 message headers sent via InfiniBand for point-to-point calls
+ 576 bytes sent via buffered InfiniBand for collective calls
+ 20456064 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for point-to-point calls
+ 7 message headers sent via InfiniBand for collective calls
+ 0 message headers sent via InfiniBand for point-to-point calls
+ 672 bytes sent via buffered InfiniBand for collective calls
+ 0 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 1707867 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 5363 send requests using shared memory for collective calls
+ 2778 send requests using shared memory for point-to-point calls
+ 997 data buffers sent via shared memory for collective calls
+ 67458 data buffers sent via shared memory for point-to-point calls
+ 5368 message headers sent via shared memory for collective calls
+ 142511 message headers sent via shared memory for point-to-point calls
+ 14990 bytes sent via buffered shared memory for collective calls
+ 2197662460 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 5 send requests using InfiniBand for collective calls
+ 2 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 158 data buffers sent via InfiniBand for point-to-point calls
+ 5 message headers sent via InfiniBand for collective calls
+ 160 message headers sent via InfiniBand for point-to-point calls
+ 576 bytes sent via buffered InfiniBand for collective calls
+ 20456064 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+ 4381826 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 12124 send requests using shared memory for collective calls
+ 2780 send requests using shared memory for point-to-point calls
+ 999 data buffers sent via shared memory for collective calls
+ 50924 data buffers sent via shared memory for point-to-point calls
+ 12129 message headers sent via shared memory for collective calls
+ 107499 message headers sent via shared memory for point-to-point calls
+ 36183 bytes sent via buffered shared memory for collective calls
+ 1622763952 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 5 send requests using InfiniBand for collective calls
+ 0 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 0 data buffers sent via InfiniBand for point-to-point calls
+ 5 message headers sent via InfiniBand for collective calls
+ 0 message headers sent via InfiniBand for point-to-point calls
+ 576 bytes sent via buffered InfiniBand for collective calls
+ 0 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+*** Dumping MPI internal resource statistics...
+
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 3023721 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 1069145 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 8723 send requests using shared memory for collective calls
+ 2778 send requests using shared memory for point-to-point calls
+ 998 data buffers sent via shared memory for collective calls
+ 72738 data buffers sent via shared memory for point-to-point calls
+ 8728 message headers sent via shared memory for collective calls
+ 153071 message headers sent via shared memory for point-to-point calls
+ 25566 bytes sent via buffered shared memory for collective calls
+ 2348211892 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 5 send requests using InfiniBand for collective calls
+ 2 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 158 data buffers sent via InfiniBand for point-to-point calls
+ 5 message headers sent via InfiniBand for collective calls
+ 160 message headers sent via InfiniBand for point-to-point calls
+ 576 bytes sent via buffered InfiniBand for collective calls
+ 20456064 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 5379 send requests using shared memory for collective calls
+ 2780 send requests using shared memory for point-to-point calls
+ 997 data buffers sent via shared memory for collective calls
+ 58844 data buffers sent via shared memory for point-to-point calls
+ 5384 message headers sent via shared memory for collective calls
+ 122019 message headers sent via shared memory for point-to-point calls
+ 15006 bytes sent via buffered shared memory for collective calls
+ 1917019660 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 5 send requests using InfiniBand for collective calls
+ 0 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 0 data buffers sent via InfiniBand for point-to-point calls
+ 5 message headers sent via InfiniBand for collective calls
+ 0 message headers sent via InfiniBand for point-to-point calls
+ 576 bytes sent via buffered InfiniBand for collective calls
+ 0 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 1809164 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 5365 send requests using shared memory for collective calls
+ 2778 send requests using shared memory for point-to-point calls
+ 997 data buffers sent via shared memory for collective calls
+ 80658 data buffers sent via shared memory for point-to-point calls
+ 5370 message headers sent via shared memory for collective calls
+ 167591 message headers sent via shared memory for point-to-point calls
+ 14992 bytes sent via buffered shared memory for collective calls
+ 2594565508 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 5 send requests using InfiniBand for collective calls
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 2 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 158 data buffers sent via InfiniBand for point-to-point calls
+ 5 message headers sent via InfiniBand for collective calls
+ 160 message headers sent via InfiniBand for point-to-point calls
+ 576 bytes sent via buffered InfiniBand for collective calls
+ 20456064 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+ 4311976 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 8755 send requests using shared memory for collective calls
+ 2780 send requests using shared memory for point-to-point calls
+ 998 data buffers sent via shared memory for collective calls
+ 62804 data buffers sent via shared memory for point-to-point calls
+ 8760 message headers sent via shared memory for collective calls
+ 132579 message headers sent via shared memory for point-to-point calls
+ 25598 bytes sent via buffered shared memory for collective calls
+ 2012823844 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 5 send requests using InfiniBand for collective calls
+ 0 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 0 data buffers sent via InfiniBand for point-to-point calls
+ 5 message headers sent via InfiniBand for collective calls
+ 0 message headers sent via InfiniBand for point-to-point calls
+ 576 bytes sent via buffered InfiniBand for collective calls
+ 0 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 2357861 retries allocating mpi PER_PROC buffers for point-to-point calls
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 15452 send requests using shared memory for collective calls
+ 2778 send requests using shared memory for point-to-point calls
+ 1002 data buffers sent via shared memory for collective calls
+ 81978 data buffers sent via shared memory for point-to-point calls
+ 15455 message headers sent via shared memory for collective calls
+ 168911 message headers sent via shared memory for point-to-point calls
+ 46920 bytes sent via buffered shared memory for collective calls
+ 2656153912 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 3 send requests using InfiniBand for collective calls
+ 2 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 158 data buffers sent via InfiniBand for point-to-point calls
+ 3 message headers sent via InfiniBand for collective calls
+ 160 message headers sent via InfiniBand for point-to-point calls
+ 384 bytes sent via buffered InfiniBand for collective calls
+ 20456064 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 2826953 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 5381 send requests using shared memory for collective calls
+ 2780 send requests using shared memory for point-to-point calls
+ 997 data buffers sent via shared memory for collective calls
+ 65444 data buffers sent via shared memory for point-to-point calls
+ 5386 message headers sent via shared memory for collective calls
+ 136539 message headers sent via shared memory for point-to-point calls
+ 15008 bytes sent via buffered shared memory for collective calls
+ 2136000652 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 5 send requests using InfiniBand for collective calls
+ 0 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 0 data buffers sent via InfiniBand for point-to-point calls
+ 5 message headers sent via InfiniBand for collective calls
+ 0 message headers sent via InfiniBand for point-to-point calls
+ 576 bytes sent via buffered InfiniBand for collective calls
+ 0 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 3294056 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 5369 send requests using shared memory for collective calls
+ 2778 send requests using shared memory for point-to-point calls
+ 999 data buffers sent via shared memory for collective calls
+ 71418 data buffers sent via shared memory for point-to-point calls
+ 5372 message headers sent via shared memory for collective calls
+ 147791 message headers sent via shared memory for point-to-point calls
+ 15186 bytes sent via buffered shared memory for collective calls
+ 2286623488 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 3 send requests using InfiniBand for collective calls
+ 2 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 158 data buffers sent via InfiniBand for point-to-point calls
+ 3 message headers sent via InfiniBand for collective calls
+ 160 message headers sent via InfiniBand for point-to-point calls
+ 384 bytes sent via buffered InfiniBand for collective calls
+ 20456064 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 2511516 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 15516 send requests using shared memory for collective calls
+ 2780 send requests using shared memory for point-to-point calls
+ 1002 data buffers sent via shared memory for collective calls
+ 76004 data buffers sent via shared memory for point-to-point calls
+ 15519 message headers sent via shared memory for collective calls
+ 155019 message headers sent via shared memory for point-to-point calls
+ 46984 bytes sent via buffered shared memory for collective calls
+ 2443942672 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 3 send requests using InfiniBand for collective calls
+ 0 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 data buffers sent via InfiniBand for point-to-point calls
+ 3 message headers sent via InfiniBand for collective calls
+ 0 message headers sent via InfiniBand for point-to-point calls
+ 384 bytes sent via buffered InfiniBand for collective calls
+ 0 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 2682276 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 8733 send requests using shared memory for collective calls
+ 2778 send requests using shared memory for point-to-point calls
+ 1000 data buffers sent via shared memory for collective calls
+ 68778 data buffers sent via shared memory for point-to-point calls
+ 8736 message headers sent via shared memory for collective calls
+ 146471 message headers sent via shared memory for point-to-point calls
+ 25766 bytes sent via buffered shared memory for collective calls
+ 2204505616 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 3 send requests using InfiniBand for collective calls
+ 2 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 158 data buffers sent via InfiniBand for point-to-point calls
+ 3 message headers sent via InfiniBand for collective calls
+ 160 message headers sent via InfiniBand for point-to-point calls
+ 384 bytes sent via buffered InfiniBand for collective calls
+ 20456064 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+*** Dumping MPI internal resource statistics...
+
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 3583538 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 5385 send requests using shared memory for collective calls
+ 2780 send requests using shared memory for point-to-point calls
+ 999 data buffers sent via shared memory for collective calls
+ 78644 data buffers sent via shared memory for point-to-point calls
+ 5388 message headers sent via shared memory for collective calls
+ 165579 message headers sent via shared memory for point-to-point calls
+ 15202 bytes sent via buffered shared memory for collective calls
+ 2539746856 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 3 send requests using InfiniBand for collective calls
+ 0 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 0 data buffers sent via InfiniBand for point-to-point calls
+ 3 message headers sent via InfiniBand for collective calls
+ 0 message headers sent via InfiniBand for point-to-point calls
+ 384 bytes sent via buffered InfiniBand for collective calls
+ 0 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 3740348 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 5371 send requests using shared memory for collective calls
+ 2778 send requests using shared memory for point-to-point calls
+ 999 data buffers sent via shared memory for collective calls
+ 75378 data buffers sent via shared memory for point-to-point calls
+ 5374 message headers sent via shared memory for collective calls
+ 154391 message headers sent via shared memory for point-to-point calls
+ 15188 bytes sent via buffered shared memory for collective calls
+ 2402957140 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 3 send requests using InfiniBand for collective calls
+ 2 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 158 data buffers sent via InfiniBand for point-to-point calls
+ 3 message headers sent via InfiniBand for collective calls
+ 160 message headers sent via InfiniBand for point-to-point calls
+ 384 bytes sent via buffered InfiniBand for collective calls
+ 20456064 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+*** Dumping MPI internal resource statistics...
+
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 3046856 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 12102 send requests using shared memory for collective calls
+ 2778 send requests using shared memory for point-to-point calls
+ 1001 data buffers sent via shared memory for collective calls
+ 71418 data buffers sent via shared memory for point-to-point calls
+ 12105 message headers sent via shared memory for collective calls
+ 150431 message headers sent via shared memory for point-to-point calls
+ 36351 bytes sent via buffered shared memory for collective calls
+ 2300309800 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 3 send requests using InfiniBand for collective calls
+ 2 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 158 data buffers sent via InfiniBand for point-to-point calls
+ 3 message headers sent via InfiniBand for collective calls
+ 160 message headers sent via InfiniBand for point-to-point calls
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 5178399 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 8765 send requests using shared memory for collective calls
+ 2780 send requests using shared memory for point-to-point calls
+ 1000 data buffers sent via shared memory for collective calls
+ 76002 data buffers sent via shared memory for point-to-point calls
+ 8768 message headers sent via shared memory for collective calls
+ 157657 message headers sent via shared memory for point-to-point calls
+ 25798 bytes sent via buffered shared memory for collective calls
+ 2478144104 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 3 send requests using InfiniBand for collective calls
+ 0 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 0 data buffers sent via InfiniBand for point-to-point calls
+ 3 message headers sent via InfiniBand for collective calls
+ 0 message headers sent via InfiniBand for point-to-point calls
+ 384 bytes sent via buffered InfiniBand for collective calls
+ 384 bytes sent via buffered InfiniBand for collective calls
+ 20456064 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+ 0 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+*** Dumping MPI internal resource statistics...
+
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 3781660 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 5373 send requests using shared memory for collective calls
+ 2778 send requests using shared memory for point-to-point calls
+ 999 data buffers sent via shared memory for collective calls
+ 72738 data buffers sent via shared memory for point-to-point calls
+ 5376 message headers sent via shared memory for collective calls
+ 151751 message headers sent via shared memory for point-to-point calls
+ 15190 bytes sent via buffered shared memory for collective calls
+ 2334525580 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 3 send requests using InfiniBand for collective calls
+ 2 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 158 data buffers sent via InfiniBand for point-to-point calls
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 4881302 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 5387 send requests using shared memory for collective calls
+ 2780 send requests using shared memory for point-to-point calls
+ 999 data buffers sent via shared memory for collective calls
+ 72042 data buffers sent via shared memory for point-to-point calls
+ 5390 message headers sent via shared memory for collective calls
+ 148417 message headers sent via shared memory for point-to-point calls
+ 15204 bytes sent via buffered shared memory for collective calls
+ 2348124140 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 3 send requests using InfiniBand for collective calls
+ 0 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 0 data buffers sent via InfiniBand for point-to-point calls
+ 3 message headers sent via InfiniBand for collective calls
+ 160 message headers sent via InfiniBand for point-to-point calls
+ 384 bytes sent via buffered InfiniBand for collective calls
+ 20456064 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+ 3 message headers sent via InfiniBand for collective calls
+ 0 message headers sent via InfiniBand for point-to-point calls
+ 384 bytes sent via buffered InfiniBand for collective calls
+ 0 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+*** Dumping MPI internal resource statistics...
+
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 4024093 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 8741 send requests using shared memory for collective calls
+ 2778 send requests using shared memory for point-to-point calls
+ 1000 data buffers sent via shared memory for collective calls
+ 71418 data buffers sent via shared memory for point-to-point calls
+ 8744 message headers sent via shared memory for collective calls
+ 149111 message headers sent via shared memory for point-to-point calls
+ 25774 bytes sent via buffered shared memory for collective calls
+ 2300309800 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 3 send requests using InfiniBand for collective calls
+ 2 send requests using InfiniBand for point-to-point calls
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 3848250 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 12150 send requests using shared memory for collective calls
+ 2780 send requests using shared memory for point-to-point calls
+ 1001 data buffers sent via shared memory for collective calls
+ 62802 data buffers sent via shared memory for point-to-point calls
+ 12153 message headers sent via shared memory for collective calls
+ 132577 message headers sent via shared memory for point-to-point calls
+ 36399 bytes sent via buffered shared memory for collective calls
+ 2040182120 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 3 send requests using InfiniBand for collective calls
+ 0 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 158 data buffers sent via InfiniBand for point-to-point calls
+ 3 message headers sent via InfiniBand for collective calls
+ 160 message headers sent via InfiniBand for point-to-point calls
+ 384 bytes sent via buffered InfiniBand for collective calls
+ 20456064 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 0 data buffers sent via InfiniBand for point-to-point calls
+ 3 message headers sent via InfiniBand for collective calls
+ 0 message headers sent via InfiniBand for point-to-point calls
+ 384 bytes sent via buffered InfiniBand for collective calls
+ 0 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+*** Dumping MPI internal resource statistics...
+
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 3176991 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 5344 send requests using shared memory for collective calls
+ 1389 send requests using shared memory for point-to-point calls
+ 999 data buffers sent via shared memory for collective calls
+ 34389 data buffers sent via shared memory for point-to-point calls
+ 5347 message headers sent via shared memory for collective calls
+ 72413 message headers sent via shared memory for point-to-point calls
+ 15064 bytes sent via buffered shared memory for collective calls
+ 1116443812 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 34 send requests using InfiniBand for collective calls
+ 1391 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 10718 data buffers sent via InfiniBand for point-to-point calls
+ 34 message headers sent via InfiniBand for collective calls
+ 23989 message headers sent via InfiniBand for point-to-point calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 3976096 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 5389 send requests using shared memory for collective calls
+ 2780 send requests using shared memory for point-to-point calls
+ 999 data buffers sent via shared memory for collective calls
+ 61482 data buffers sent via shared memory for point-to-point calls
+ 5392 message headers sent via shared memory for collective calls
+ 128617 message headers sent via shared memory for point-to-point calls
+ 15206 bytes sent via buffered shared memory for collective calls
+ 1978593716 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 3 send requests using InfiniBand for collective calls
+ 0 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 0 data buffers sent via InfiniBand for point-to-point calls
+ 3 message headers sent via InfiniBand for collective calls
+ 0 message headers sent via InfiniBand for point-to-point calls
+ 384 bytes sent via buffered InfiniBand for collective calls
+ 0 bytes sent via buffered InfiniBand for point-to-point calls
+ 448 bytes sent via buffered InfiniBand for collective calls
+ 1300126236 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 0 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 8773 send requests using shared memory for collective calls
+ 2778 send requests using shared memory for point-to-point calls
+ 1000 data buffers sent via shared memory for collective calls
+ 66138 data buffers sent via shared memory for point-to-point calls
+ 8782 message headers sent via shared memory for collective calls
+ 147985 message headers sent via shared memory for point-to-point calls
+ 25806 bytes sent via buffered shared memory for collective calls
+ 2108697452 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 3 send requests using InfiniBand for collective calls
+ 0 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 0 data buffers sent via InfiniBand for point-to-point calls
+ 9 message headers sent via InfiniBand for collective calls
+ 2560 message headers sent via InfiniBand for point-to-point calls
+ 384 bytes sent via buffered InfiniBand for collective calls
+ 0 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+*** Dumping MPI internal resource statistics...
+
+ 0 retries allocating mpi PER_PROC headers for collective calls
+ 0 retries allocating mpi PER_PROC headers for point-to-point calls
+ 0 retries allocating mpi PER_PROC buffers for collective calls
+ 0 retries allocating mpi PER_HOST buffers for collective calls
+ 3059921 retries allocating mpi PER_PROC buffers for point-to-point calls
+ 0 retries allocating mpi PER_HOST buffers for point-to-point calls
+ 5360 send requests using shared memory for collective calls
+ 1391 send requests using shared memory for point-to-point calls
+ 999 data buffers sent via shared memory for collective calls
+ 33693 data buffers sent via shared memory for point-to-point calls
+ 6352 message headers sent via shared memory for collective calls
+ 74355 message headers sent via shared memory for point-to-point calls
+ 15080 bytes sent via buffered shared memory for collective calls
+ 1082140280 bytes sent via buffered shared memory for point-to-point calls
+ 0 bytes sent via single copy shared memory for collective calls
+ 0 bytes sent via single copy shared memory for point-to-point calls
+ 34 send requests using InfiniBand for collective calls
+ 0 send requests using InfiniBand for point-to-point calls
+ 0 data buffers sent via InfiniBand for collective calls
+ 0 data buffers sent via InfiniBand for point-to-point calls
+ 1023 message headers sent via InfiniBand for collective calls
+ 0 message headers sent via InfiniBand for point-to-point calls
+ 448 bytes sent via buffered InfiniBand for collective calls
+ 0 bytes sent via buffered InfiniBand for point-to-point calls
+ 0 bytes sent via single copy InfiniBand for collective calls
+ 0 bytes sent via single copy InfiniBand for point-to-point calls
+mv: cannot stat `BLS*': No such file or directory
+mv: cannot stat `OUT*': No such file or directory
+mv: cannot stat `C*': No such file or directory

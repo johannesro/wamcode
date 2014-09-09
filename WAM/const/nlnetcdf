@@ -1,0 +1,12 @@
+&nlnetcdf
+cdatea = '20140904000000',
+cdatee = '20140906180000',
+ideldo = 3,                 !! output time step
+cflag_p = T,T,T,T,T,F,F,F,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,F,T,T,T,T,T,T,T,F,T,T,T,T,T,T,T,T,
+cdtfile = '20140904000000',
+idfile = 3,                 !! MAP-file time step
+file01 = '../MAP',
+xdello = 0.1,
+xdella = 0.1,
+iredu  = 0                  !! 0: regular grid, 1: reduced grid
+/end

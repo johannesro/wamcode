@@ -1,0 +1,10 @@
+ -100.0   4   .03452308 ! dtresh [km], max number of neighbours, fr(1), NB! Negative radius means empty spectra are produced out of range
+ 58.6403     0.1266
+ 58.5379     0.6047
+ 71.2686    12.5340   
+ 68.4102     4.3898 
+ 55.2333   -13.4066
+ 58.4888     0.8264 
+ 58.0515     2.7318 
+ 72.6709    20.5016
+ 70.2726    14.5966

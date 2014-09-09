@@ -1,0 +1,26 @@
+#!/bin/ksh
+#++
+#
+# compile
+#
+./make_modules1
+./make_modules2
+./make_preproc
+./make_chiefnetcdf
+./make_print
+./make_netcdf
+./make_netcdf_rad
+./make_netcdf_spec
+#
+# create binaries
+#
+./build_preproc
+./build_wam
+./build_pgrid
+./build_pspec
+./build_ptime
+./build_prad
+./build_pnetcdf
+./build_pnetcdf_rad
+./build_pnetcdf_spec
+#

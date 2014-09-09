@@ -1,0 +1,32 @@
+#!/bin/sh
+#
+#==>  WAM post-processing pspec
+#
+#PBS -o /home/metno/carrasco/MYWAVE_WAM/WAM10/jobs/pspec.log
+#PBS -e /home/metno/carrasco/MYWAVE_WAM/WAM10/jobs/pspec.log
+#PBS -N  pspec
+# Account to run job (change the account name: See Accounting above)
+#PBS -A nn2857k
+#PBS -l select=1:ncpus=1
+#PBS -l walltime=15:00:00
+#
+
+module load intelcomp/13.0.1  netcdf/4.1.3
+
+
+WAMDIR=/home/metno/carrasco/MYWAVE_WAM/WAM10
+WORK=/work/carrasco/MyWaveWAM/WAM10
+
+cd ${WORK}/tempsg
+cp ${WAMDIR}/const/Spectra_User .
+cp ${WAMDIR}/abs/pspec pspec.exe
+#
+./pspec.exe
+mv Spectra_Prot ${WAMDIR}/dayfiles/pspec_prot_c
+rm Spectra_User pspec.exe
+#
+# ===================================================================
+#  GRID FILES HAVE BEEN CREATED AND SAVED.
+#  END OF JOB PGRID.
+# ===================================================================
+#

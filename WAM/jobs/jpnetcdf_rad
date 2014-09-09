@@ -1,0 +1,35 @@
+#!/bin/bash
+#
+#==>  WAM post-processing prad
+#
+#PBS -o /home/metno/carrasco/MYWAVE_WAM/WAM10/jobs/prad.log
+#PBS -e /home/metno/carrasco/MYWAVE_WAM/WAM10/jobs/prad.log
+#PBS -N  pnetcdf_rad
+# Account to run job (change the account name: See Accounting above)
+#PBS -A nn2857k
+#PBS -l select=1:ncpus=1
+#PBS -l walltime=15:00:00
+#
+
+module load intelcomp/13.0.1 mpt/2.06 netcdf/4.3.0
+
+WAMDIR=/home/metno/carrasco/MYWAVE_WAM/WAM10
+WORK=/work/carrasco/MyWaveWAM/WAM10
+
+cd ${WORK}/tempsg
+#
+cp ${WAMDIR}/const/nlnetcdf_rad  NETCDF_RAD_User
+cp ${WAMDIR}/abs/pnetcdf_rad  pnetcdf_rad.exe
+#
+./pnetcdf_rad.exe
+mv pnetcdf_rad_prot ${WAMDIR}/dayfiles/pnetcdf_rad_prot_c
+mv  RAD*.nc ..
+rm  NETCDF_RAD_User 
+rm  pnetcdf_rad.exe
+
+#
+# ===================================================================
+#  GRID FILES HAVE BEEN CREATED AND SAVED.
+#  END OF JOB PGRID.
+# ===================================================================
+#
