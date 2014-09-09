@@ -9,10 +9,24 @@ abs/*
 *dayfiles/*
 *wam_prot*
 
+
 # configuration files
 *keywordin
 
 # temporary files
 *.swp
 *~
+
+# Data fieles
+*.DAT
+*.nc
+*BXX*
+*BLS*
+
+# Output data
+*ready/*
+*tempsg/*
+*netcdf/*
+*work/*
+*binary/*
 
