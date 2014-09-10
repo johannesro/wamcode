@@ -2,6 +2,7 @@
 *.mod
 *.o
 WAM/abs/*
+WAM/jobs/*
 
 # log files
 *.log
