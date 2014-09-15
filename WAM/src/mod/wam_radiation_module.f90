@@ -298,15 +298,15 @@ IF (ANY(CFLAG(1:6))) THEN
    CALL PUT_ICE(SXX(nijs:nijl), NIJS, NIJL, ZMISS)   !! FLAG ICE POINTS
    CALL PUT_ICE(SYY(nijs:nijl), NIJS, NIJL, ZMISS)
    CALL PUT_ICE(SXY(nijs:nijl), NIJS, NIJL, ZMISS)
-    
-   IF (FINE) THEN              !! FLAG BOUNDARY INPUT POINTS (IF FINE GRID)
-      DO I = 1, NBOUNF
-         IF (IJARF(I).LT.NIJS .OR. IJARF(I).GT.NIJL) CYCLE
-         SXX(IJARF(I)) = ZMISS
-         SYY(IJARF(I)) = ZMISS
-         SXY(IJARF(I)) = ZMISS
-      END DO
-   END IF
+! ANA C removes the undefined values at the edges of the domain       
+!  IF (FINE) THEN              !! FLAG BOUNDARY INPUT POINTS (IF FINE GRID)
+!     DO I = 1, NBOUNF
+!        IF (IJARF(I).LT.NIJS .OR. IJARF(I).GT.NIJL) CYCLE
+!        SXX(IJARF(I)) = ZMISS
+!        SYY(IJARF(I)) = ZMISS
+!        SXY(IJARF(I)) = ZMISS
+!     END DO
+!  END IF
 
 ! ---------------------------------------------------------------------------- !
 !                                                                              !
@@ -368,14 +368,15 @@ IF (ANY(CFLAG(7:8))) THEN
    CALL PUT_DRY(STOKES_Y, NIJS, NIJL, ZMISS)
    CALL PUT_ICE(STOKES_X, NIJS, NIJL, ZMISS)   !! FLAG ICE POINTS
    CALL PUT_ICE(STOKES_Y, NIJS, NIJL, ZMISS)
-     
-   IF (FINE) THEN              !! FLAG BOUNDARY INPUT POINTS (IF FINE GRID)
-      DO I = 1, NBOUNF
-         IF (IJARF(I).LT.NIJS .OR. IJARF(I).GT.NIJL) CYCLE
-         STOKES_X(IJARF(I)) = ZMISS
-         STOKES_Y(IJARF(I)) = ZMISS
-      END DO
-   END IF
+
+! ANA C removes the undefined values at the edges of the domain     
+!   IF (FINE) THEN              !! FLAG BOUNDARY INPUT POINTS (IF FINE GRID)
+!      DO I = 1, NBOUNF
+!         IF (IJARF(I).LT.NIJS .OR. IJARF(I).GT.NIJL) CYCLE
+!         STOKES_X(IJARF(I)) = ZMISS
+!         STOKES_Y(IJARF(I)) = ZMISS
+!      END DO
+!   END IF
 END IF
 
 ! ---------------------------------------------------------------------------- !
