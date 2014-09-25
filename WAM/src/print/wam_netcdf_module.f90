@@ -117,6 +117,13 @@ IF (ncid(0)<0) THEN
    vmin(5)  = 0.
    vmax(5)  = 0.1
 
+   vl(1, 6) = 'DEPTH'
+   vl(2, 6) = 'water depth'
+   vl(3, 6) = 'water depth'
+   vl(4, 6) = 'm'
+   vmin(6)  = 0
+   vmax(6)  = 8000
+
    vl(1, 9) = 'hs'
    vl(2, 9) = 'sea_surface_wave_significant_height'
    vl(3, 9) = 'Total significant wave height'
