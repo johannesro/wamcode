@@ -876,7 +876,7 @@ INTEGER, INTENT(IN) :: IU20         !! PARAMETER UNIT NUMBER.
 !     ---------------                                                          !
 
 REAL, PARAMETER       :: ZMISS     =  -999.  !! MISSING VALUE (LAND)
-REAL, PARAMETER       :: ZMISS_ICE =  -997.  !! MISSING VALUE (ICE)
+REAL, PARAMETER       :: ZMISS_ICE =  -999.  !! MISSING VALUE (ICE)
 REAL, PARAMETER       :: ZMISS_DRY =  -998.  !! MISSING VALUE (DRY)
 REAL, PARAMETER       :: ZMISS_PRI =  -995.  !! MISSING VALUE for Print
 
