@@ -15,12 +15,12 @@ PROGRAM make_spec_netcdf_metno
 !     INTERFACE.                                                               !
 !     ----------                                                               !
 !                                                                              !
-!          IU01    INPUT UNIT OF SPECTRA FILE.                                !
+!          IU01    INPUT UNIT OF SPECTRA FILE.                                 !
 !                                                                              !
 !     METHOD.                                                                  !
 !     -------                                                                  !
 !                                                                              !
-!       THIS PROGRAM READS THE WAM MODEL SPECTRA OUTPUTS AND EXTRACTS          !
+!       THIS PROGRAM READS THE BINARY WAM MODEL SPECTRA OUTPUTS AND EXTRACTS   !
 !       SPECTRA AT SPECIFIED LOCATIONS AND TIMES. THEN IT ROTATES THE SPECRA   !
 !       TO  THE TRUE NORTH AND WRITES THEM IN A NETCDF FILE.                   !
 !       THIS PROGRAM ONLY WORKS FOR THE SPECIFIC ROTATION OF WAM10 AT METNO.   !
@@ -53,7 +53,7 @@ use wam_spec_netcdf_metno_module
 USE WAM_FILE_MODULE,  ONLY: IU05, FILE05, IU06, FILE06, ITEST
 USE WAM_PRINT_MODULE, ONLY: CDATEA, CDATEE, IDELDO,                            &
 &                           IU01, FILE01,  CDTFILE, IDFILE,                    &
-&                           NOUT_S, PFLAG_S, TITL_S, NOUTT, COUTT,             &
+&                           NOUT_S, PFLAG_S, NOUTT, COUTT,                     &
 &                           NOUTP, OUTLONG, OUTLAT, NAME, CFLAG_S,             &
 &                           KL, ML, CO, FR, THETA,                             &
 &                           SPEC_LAT, SPEC_LON, SPEC_DATE,                     &
@@ -84,6 +84,7 @@ REAL, PARAMETER    :: xcen  =  -40.000000  !! Longitude of center point in rotat
 REAL, PARAMETER    :: ycen  =   68.000000  !! Latitude of center point in rotated sph. grid for WAM10 at METNO
 real, allocatable, dimension (:)     :: TRUELONG
 real, allocatable, dimension (:)     :: TRUELAT
+real, allocatable, dimension (:)     :: ROTANGLE
 
 ! ---------------------------------------------------------------------------- !
 !                                                                              !
@@ -101,9 +102,11 @@ OPEN (UNIT=IU06, FILE=FILE06, FORM='FORMATTED', STATUS="UNKNOWN")
 CALL READ_SPECTRA_USER
 CALL PRINT_SPECTRA_USER
 
-if (.not.allocated(TRUELONG))  allocate(TRUELONG(1:NOUTP))
-if (.not.allocated(TRUELAT))  allocate(TRUELAT(1:NOUTP))
-CALL ROTATE_COORDINATES(TRUELONG,TRUELAT)
+if (.not.allocated(TRUELONG) )  allocate(TRUELONG(1:NOUTP))
+if (.not.allocated(TRUELAT)  )  allocate(TRUELAT(1:NOUTP) )
+if (.not.allocated(ROTANGLE) )  allocate(ROTANGLE(1:NOUTP))
+
+CALL ROTATE_COORDINATES(IU06,TRUELONG,TRUELAT,ROTANGLE)
 
 
 !     1.3 FIRST AND LAST OUTPUT DATE.                                         !!
@@ -186,16 +189,16 @@ FILES: DO
          IF (MOD(OUTLONG(I)-SPEC_LON+2*M_S_PER,+M_S_PER).EQ.0 .AND.            &
 &           OUTLAT(I).EQ.SPEC_LAT) THEN
             IF (PFLAG_S(1) .AND. CFLAG_S(1)) THEN
-            call ROTATE_SPECTRUM(IU06, SPEC_DATE, SPEC_LON, SPEC_LAT,   &
-&                  HEADER, FR, THETA, SPEC,I,tstep,1)
+            call ROTATE_SPECTRUM(IU06, SPEC_DATE,                              &
+&                  FR,THETA,SPEC,I,tstep,ROTANGLE(I),1)
             END IF
             IF (PFLAG_S(2) .AND. CFLAG_S(2)) THEN
-            call ROTATE_SPECTRUM(IU06, SPEC_DATE, SPEC_LON, SPEC_LAT,   &
-&                  HEADER, FR, THETA, SPEC_SEA,I,tstep,2)
+            call ROTATE_SPECTRUM(IU06, SPEC_DATE,                              &
+&                  FR,THETA,SPEC_SEA,I,tstep,ROTANGLE(I),2)
             END IF
             IF (PFLAG_S(3) .AND. CFLAG_S(3)) THEN
-            call ROTATE_SPECTRUM(IU06, SPEC_DATE, SPEC_LON, SPEC_LAT,   &
-&                  HEADER, FR, THETA, SPEC_SWELL,I,tstep,3)
+            call ROTATE_SPECTRUM(IU06, SPEC_DATE,                              &
+&                  FR,THETA,SPEC_SWELL,I,tstep,ROTANGLE(I),3)
             END IF
 
            
@@ -247,14 +250,18 @@ CONTAINS
    END SUBROUTINE NEXT_OUTPUT_TIME
 
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-SUBROUTINE ROTATE_COORDINATES(TRUELONG,TRUELAT)
+SUBROUTINE ROTATE_COORDINATES(IUNIT,TRUELONG,TRUELAT,ROTANGLE)
 
-REAL               ::oldlatdeg,latrad
-REAL               ::oldlongdeg,longrad
+!     LOCAL VARIABLES.
+INTEGER            :: IUNIT     !! OUTPUT UNIT.
+REAL               :: oldlatdeg,latrad
+REAL               :: oldlongdeg,longrad
 REAL               :: tlong
 REAL               :: tlat
+REAL               :: delang, delang2, delta
 REAL               :: TRUELONG(:)
-REAL               ::TRUELAT(:)
+REAL               :: TRUELAT(:)
+REAL               :: ROTANGLE(:)
 INTEGER            :: I
 
 DO I = 1,NOUTP
@@ -263,11 +270,28 @@ DO I = 1,NOUTP
    latrad = oldlatdeg*RAD
    oldlongdeg = REAL(OUTLONG(I))/(60*60*100) !LON converted to degrees
    longrad = oldlongdeg*RAD
+   ! Local distortion angle in old grid
+   call ANCORR(delta,oldlongdeg,oldlatdeg,xcen,ycen)
+   delang  = delta  
+   write(IUNIT,*)'COORDINATES IN ROTATED GRID  LONG = ',oldlongdeg,'LAT =', oldlatdeg
+   write(IUNIT,*)'ROTATED ANGLE  =     ',delta
+   
    ! Compute coordinates in the new geografic grid (or non rotated grid)
    call SPHROT(longrad,latrad,tlong,tlat,xcen*RAD,ycen*RAD,-1)
    TRUELONG(I)=tlong*DEG
    TRUELAT(I)=tlat*DEG
+   write(IUNIT,*)'TRUE COORDINATES   LONG = ',TRUELONG(I),'LAT =', TRUELAT(I)
+  
+   ! Local distortion angle in new grid geographic grid
+   call ANCORR(delta,TRUELONG(I),TRUELAT(I),0.0,0.0)
+   delang2  = delta 
+   ! Compute angle between old (rotated) and new (no-rotated) grid
+   ! Angle correction from rotated meridian to true meridian
+   ROTANGLE(I) = ang360(delang2-delang)
+   WRITE(IUNIT,*)'NEW ANGLE              = ',ROTANGLE(I)
 ENDDO
+
+
 
 END SUBROUTINE  ROTATE_COORDINATES
 
@@ -275,8 +299,8 @@ END SUBROUTINE  ROTATE_COORDINATES
 ! ---------------------------------------------------------------------------- !
 
 !
- SUBROUTINE ROTATE_SPECTRUM(IUNIT, CDATE, LONG, LAT, TITL, FR, THETA, SPEC, &
-&                            IPOS,tstep,ivariable)
+ SUBROUTINE ROTATE_SPECTRUM(IUNIT, CDATE, FR, THETA, SPEC,IPOS,tstep,          &
+&                           ANGLE,ivariable)
 
 
 !     INTERFACE VARIABLES.
@@ -286,9 +310,7 @@ END SUBROUTINE  ROTATE_COORDINATES
 
 INTEGER,            INTENT(IN) :: IUNIT     !! OUTPUT UNIT.
 CHARACTER (LEN=14), INTENT(IN) :: CDATE     !! DATE OF SPECTRUM (YYYYMMDDHHMMSS).
-INTEGER,            INTENT(IN) :: LONG      !! LONGITUDE OF SPECTRUM (DEGREE).
-INTEGER,            INTENT(IN) :: LAT       !! LATITUDE OF SPECTRUM (DEGREE).
-CHARACTER (LEN=40), INTENT(IN) :: TITL      !! TITLE.
+REAL,               INTENT(IN) :: ANGLE     !! ANGLE: ROTATE THE SPECTRA TO TRUE NORTH
 REAL,               INTENT(IN) :: SPEC(:,:) !! SPECTRUM.
 REAL,               INTENT(IN) :: FR(:)     !! FREQUENCY ARRAY IN HERTZ.
 REAL,               INTENT(IN) :: THETA(:)  !! DIRECTION ARRAY IN RAD.
@@ -306,24 +328,13 @@ INTEGER            :: ML              !! NUMBER OF FREQUENCIES.
 INTEGER            :: IPE, IP, M, LEN
 REAL               :: DELTH
 REAL               :: SPECR(SIZE(THETA),SIZE(FR)) !!SPECT. ROTATED TO TRUE NORTH
-REAL               :: ODSPEC(SIZE(FR))  !! 1-D SPECTRUM.  (M*M/HERTZ)
+REAL               :: frac
+INTEGER            :: k2
+INTEGER            :: k
+INTEGER            :: i,IPOS,tstep
+INTEGER            :: kplus
+INTEGER            :: dk,ivariable
 
-REAL               :: ANG(SIZE(THETA))     !! DIRECTIONS IN DEGREE.
-REAL               ::frac
-INTEGER            ::k2
-INTEGER            ::k
-INTEGER            ::i,IPOS,tstep
-INTEGER            ::kplus
-INTEGER            ::dk,ivariable
-REAL               ::longrad
-REAL               ::oldlongdeg
-REAL               ::latrad
-REAL               ::oldlatdeg
-REAL               ::truelong
-REAL               ::truelat
-REAL               ::angle
-REAL               ::delang, delang2
-REAL               ::delta
 
 ! ---------------------------------------------------------------------------- !
 ! 
@@ -332,45 +343,14 @@ REAL               ::delta
 
 KL = SIZE(THETA)
 ML = SIZE(FR)
-DELTH = ZPI/REAL(KL)
+DELTH = 360/REAL(KL)  !Has to be in degrees
 
 !     1.1 ROTATE THE SPECTRA TO THE TRUE NORTH
 
-!LAT and LONG come in seconds*100
-oldlatdeg = (REAL(LAT)/(60*60*100)) !LAT converted to degrees
-latrad = oldlatdeg*RAD
-oldlongdeg = REAL(LONG)/(60*60*100) !LON converted to degrees
-longrad = oldlongdeg*RAD
-! Local distortion angle in old grid
-call ANCORR(delta,oldlongdeg,oldlatdeg,xcen,ycen)
-delang  = delta  
-
-write(IUNIT,*)'COORDINATES IN ROTATED GRID  LONG = ',oldlongdeg,'LAT =', oldlatdeg
-write(IUNIT,*)'ROTATED ANGLE  =     ',delta
-
-
-! Compute coordinates in the new geografic grid (or non rotated grid)
-call SPHROT(longrad,latrad,truelong,truelat,xcen*RAD,ycen*RAD,-1)
-truelong=truelong*DEG
-truelat=truelat*DEG
-write(IUNIT,*)'TRUE COORDINATES   LONG = ',truelong,'LAT =', truelat
-write(IUNIT,*)'ROTATED ANGLE  =     ',delta
-
-
-! Local distortion angle in new grid geographic grid
-call ANCORR(delta,truelong,truelat,0.0,0.0)
-delang2  = delta 
- 
-
-! Compute angle between old (rotated) and new (no-rotated) grid
-! Angle correction from rotated meridian to true meridian
-angle = ang360(delang2-delang)
-WRITE(IUNIT,*)'NEW ANGLE              = ',angle
-
 
 ! Compute gap measured in directional bins
-dk = int(angle/DELTH)
-frac = 1.0-mod(angle,DELTH)/DELTH
+dk = int(ANGLE/DELTH)
+frac = 1.0-mod(ANGLE,DELTH)/DELTH
 
 ! Rotate spectra to true north
 do k2 = 1, KL
