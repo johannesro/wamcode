@@ -37,7 +37,7 @@ SUBROUTINE READ_ICE_INPUT
 !                                                                              !
 !       THE FOLLOWING INFORMATION HAS TO BE TRANSFERRED BY                     !
 !       SUB. SET_ICE TO THE WAM_ICE_MODULE:                                    !
-!          CHARACTER (LEN=14) :: CDATE     !! DATE/TIME OFICE FIELD.           !
+!          CHARACTER (LEN=14) :: CDTICE     !! DATE/TIME OFICE FIELD.           !
 !          INTEGER            :: ICE_GRID(:,:) !! ICE MAP.                     !
 !                                                                              !
 !       THE ICE MAP MUST BE ON A REGULAR LATITUDE-LONGITUDE GRID ARRANGED      !
@@ -95,12 +95,13 @@ REAL (KIND=KIND_D)    :: SOUTH         !! SOUTH LATITUDE OF GRID [DEG].
 REAL (KIND=KIND_D)    :: NORTH         !! NORTH LATITUDE OF GRID [DEG].
 REAL (KIND=KIND_D)    :: WEST          !! WEST LONGITUDE OF GRID [DEG].
 REAL (KIND=KIND_D)    :: EAST          !! EAST LONGITUDE OF GRID [DEG].
-INTEGER, ALLOCATABLE  :: ICE_GRID(:,:) !! ICE MAP 
-CHARACTER (LEN=14)    :: CDATE         !! ICE DATE
+INTEGER, ALLOCATABLE  :: ICE_GRID(:,:) !! ICE MAP (ice coverage as 0 or 1 mask
+REAL, ALLOCATABLE     :: ICE_conc(:,:) !! Ice concentration between 0 and 1 
+CHARACTER (LEN=14), SAVE :: CDTICE         !! ICE DATE
 CHARACTER (LEN=14)    :: firstdate      !! 
 LOGICAL, SAVE         :: FRSTIME = .TRUE.
 
-integer ::D_TIME
+integer, SAVE  :: D_TIME
 INTEGER        :: LENF
 INTEGER, SAVE  :: ITIMES
 INTEGER, SAVE  :: NTIMES 
@@ -125,7 +126,7 @@ IF (FRSTIME) THEN
 &                         D_LAT,D_TIME,NORTH,SOUTH,EAST,WEST,ICEid, &
 &                         timeid, NTIMES,firstdate) 
    
-   CDATE=firstdate
+   CDTICE=firstdate
    ITIMES=0
    CALL SET_ICE_HEADER (WEST, SOUTH, EAST, NORTH, D_LON, D_LAT)
 
@@ -139,18 +140,23 @@ END IF
 !        --------------                                                        !
 
 IF (.NOT.ALLOCATED(ICE_GRID)) ALLOCATE (ICE_GRID(1:NX_ICE,1:NY_ICE))
+IF (.NOT.ALLOCATED(ICE_conc)) ALLOCATE (ICE_conc(1:NX_ICE,1:NY_ICE))
 
 IF (NTIMES.gt.1) THEN
    ITIMES = 1 + ITIMES
-   CALL Pf(nf90_get_var(ncid, ICEid, ICE_GRID(:, :),& 
+   CALL Pf(nf90_get_var(ncid, ICEid, ICE_conc(:, :),& 
 &          start = (/ 1, 1, ITIMES /),&                      
 &          count = (/NX_ICE , NY_ICE, 1/))) 
-   CALL INCDATE(CDATE, D_TIME)  
+   CALL INCDATE(CDTICE, D_TIME)  
 ELSE
-   CALL Pf(nf90_get_var(ncid, ICEid, ICE_GRID(:, :),&
+   CALL Pf(nf90_get_var(ncid, ICEid, ICE_conc(:, :),&
 &          start = (/ 1, 1/),&     
 &          count = (/NX_ICE , NY_ICE/))) 
 ENDIF
+
+! convert ice concentration to ice cover
+ICE_GRID = 0
+where (ICE_conc .gt. 0.5) ICE_GRID = 1 
 
 
 ! ---------------------------------------------------------------------------- !
@@ -158,7 +164,7 @@ ENDIF
 !     4. TRANSFER ICE DATA TO MODULE.                                          !
 !        ----------------------------                                          !
 
-CALL SET_ICE (CDATE, ICE_GRID)
+CALL SET_ICE (CDTICE, ICE_GRID)
 
 ! ---------------------------------------------------------------------------- !
 !                                                                              !
@@ -167,10 +173,11 @@ CALL SET_ICE (CDATE, ICE_GRID)
 
 IF (ITEST.GE.1) THEN
    WRITE(IU06,*) ' '
-   WRITE(IU06,*) '     SUB. READ_ICE_INPUT: FIELD FOR CDATE = ',CDATE
+   WRITE(IU06,*) '     SUB. READ_ICE_INPUT: FIELD FOR CDTICE = ',CDTICE
 END IF   
 
 IF (ALLOCATED(ICE_GRID)) DEALLOCATE (ICE_GRID)
+IF (ALLOCATED(ICE_conc)) DEALLOCATE (ICE_conc)
 
 RETURN
 
@@ -186,6 +193,7 @@ implicit none
 
 
 CHARACTER (LEN=21)      :: xvar     !! NAME OF ICE CONCENTRATION VARIABLE
+CHARACTER (LEN=12)     :: lon_name, lat_name     !! NAME OF THE coordinate-VARIABLE IN NETCDF
 CHARACTER (LEN=4)      :: yyyy
 CHARACTER (LEN=2)      :: mm
 CHARACTER (LEN=2)      :: dd
@@ -211,33 +219,30 @@ integer*8  ::rtime, sectodate
 
 !Name of ice varible
   xvar='sea_ice_concentration'
-!       123456789012345678901 
  
 !Check if there is a variable named sea_ice_concentration   and get the ID   
       CALL Pf(nf90_inq_varid(ncid, xvar, ICEid))
-
-!Check if there is a variable named time and get the ID   
-      CALL Pf(nf90_inq_dimid(ncid,"time",timeid))
-    
+ !Check if there is a variable named time and get the ID   
+      CALL Pf(nf90_inq_varid(ncid,"time",timeid))
+      write(IU06,*)'timeid: ',timeid
 !Get the Number of dimensions  
       CALL Pf(nf90_inquire_variable(ncid, ICEid, ndims = numDims, natts = numAtts))
-!Check if there is a variable named Xc="rotated longitude" and get the ID   
-      CALL Pf(nf90_inq_varid(ncid,"Xc",lonid))
-!Check if there is a variable named Yc="rotated latitude" and get the ID   
-      CALL Pf(nf90_inq_varid(ncid,"Yc",latid))
 
-      
-      
-
-!Get the Dimensions of the ICE fields
-      
+!Get the Dimensions
       CALL Pf(nf90_inquire_variable(ncid, ICEid, dimids = dimIDs(:numDims)))
       WRITE(IU06,*)'numDims for ICE =',numDims
 
-      CALL Pf(nf90_inquire_dimension(ncid, dimIDs(1), len = N_LON))
-      
-      CALL Pf(nf90_inquire_dimension(ncid, dimIDs(2), len = N_LAT))
-    
+!Assume first dimension is longitude,
+      CALL Pf(nf90_inquire_dimension(ncid, dimIDs(1), name = lon_name, len = N_LON))
+      CALL Pf(nf90_inq_varid(ncid,lon_name,lonid))
+      WRITE(IU06,*)'N_LON=',N_LON,' lon_name=',lon_name
+
+!Assume second dimension is latitude    
+      CALL Pf(nf90_inquire_dimension(ncid, dimIDs(2), name = lat_name, len = N_LAT))
+      CALL Pf(nf90_inq_varid(ncid,lat_name,latid))
+      WRITE(IU06,*)'N_LAT=',N_LAT,' lat_name=',lat_name
+
+!Get the number of time steps 
       IF (numDims.gt.2) THEN
          CALL Pf(nf90_inquire_dimension(ncid, dimIDs(numDims), len = NTIMES))
       ELSE
@@ -246,12 +251,14 @@ integer*8  ::rtime, sectodate
 
       WRITE(IU06,*)'N_LON N_LAT NTIMES',N_LON,N_LAT,NTIMES
 
-!Get the values of the lons 
+
       allocate(xlon(N_LON))
+      write(IU06,*)'get longitudes:'
       CALL Pf(nf90_get_var(ncid,lonid,xlon))
       D_LON=xlon(2)-xlon(1)
       EAST=MAXVAL(xlon)
       WEST=MINVAL(xlon)
+      write(IU06,*)'EAST WEST: ',EAST,WEST
 
 
 !Get the values of the lats
@@ -271,16 +278,22 @@ integer*8  ::rtime, sectodate
       
 
       IF (NTIMES.gt.1) THEN   
+         write(IU06,*)'timeid:',timeid
+
+         write(IU06,*)'get time:'
          CALL Pf(nf90_get_var(ncid, timeid, time))
+         write(IU06,*)'time: ',time
+
          write(IU06,*)'time(1),time(2)',time(1),time(2)
-         D_TIME=INT(time(2)-time(1))
+         DT=INT(time(2)-time(1))
+         write(IU06,*)'D_TIME=',D_TIME
       ELSEIF (NTIMES.eq.1) THEN 
          !get the   forecast_reference_time 
          CALL Pf(nf90_inq_varid(ncid,"forecast_reference_time",rtimeid))
        
          CALL Pf(nf90_get_var(ncid, rtimeid, rtime))
          write(IU06,*)'In ICE file forecast_reference_time = ',rtime
-         D_TIME=0
+         DT=0
       ENDIF
 
       WRITE(IU06,*)'EAST,WEST,NORTH,SOUTH, D_TIME',&
@@ -290,8 +303,7 @@ integer*8  ::rtime, sectodate
 
       time_units=''
       CALL Pf(nf90_get_att(ncid, timeid, 'units', time_units))     
-      write(IU06,*)'time_units'
-      write(IU06,*)time_units 
+      write(IU06,*)'time_units: ',time_units 
       if (time_units(1:4).eq.'days') then
 
          yyyy=time_units(12:15)
@@ -336,6 +348,7 @@ integer*8  ::rtime, sectodate
       WRITE(IU06,*)'sectodate',sectodate
       CALL INCDATELONGAGO (firstdate, sectodate)
       WRITE(IU06,*)'firstdate=', firstdate
+      WRITE(IU06,*)'D_TIME=', D_TIME
 
          !days since 2000-01-01 00:00:00"
          !12345678901234567890
@@ -355,7 +368,7 @@ end SUBROUTINE readheaderICEnc
 SUBROUTINE pf(en)
 use netcdf
 integer :: en
-if (en/=0) write (iu06,*) 'IN READ_WIND_INPUT err: ', NF90_STRERROR(en)
+if (en/=0) write (iu06,*) 'IN READ_ICE_INPUT err: ', NF90_STRERROR(en)
 end SUBROUTINE pf
 
 SUBROUTINE INCDATELONGAGO (CDATE, ISHIFT)
