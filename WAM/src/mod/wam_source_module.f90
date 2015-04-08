@@ -612,7 +612,7 @@ REAL,    INTENT(INOUT) :: Z0(:)    !! ROUGHNESS LENGTH.
 
 INTEGER  :: IJ, I, J
 REAL     :: XI, DELI1, DELI2, XJ, DELJ1, DELJ2
-
+REAL     :: UST2, ARG
 ! ---------------------------------------------------------------------------- !
 !                                                                              !
 !     1. DETERMINE TOTAL STRESS FROM TABLE.                                    !
@@ -636,12 +636,18 @@ END DO
 !     2. DETERMINE ROUGHNESS LENGTH.                                           !
 !        ---------------------------                                           !
 
-where (us==0.)
-   z0 = 100.
-elsewhere
-   z0 = MIN(U10/US,100.0)
-end where
-Z0  = XNLEV*EXP(-XKAPPA*Z0)
+!where (us==0.)
+!   z0 = 100.
+!elsewhere
+!   z0 = MIN(U10/US,100.0)
+!end where
+!Z0  = XNLEV*EXP(-XKAPPA*Z0)
+
+DO IJ = 1,SIZE(U10)
+   UST2 = max(US(IJ)**2,0.00001)
+   ARG = MAX(1.-(TAUW(IJ)/UST2),0.00001) 
+   Z0(IJ)  = 0.0185*UST2/G/SQRT(ARG) 
+END DO
 
 END SUBROUTINE AIRSEA
 

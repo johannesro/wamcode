@@ -1150,7 +1150,7 @@ END IF
 DO IJ = 1,SIZE(US)
    UU = US(IJ)
    VV = DS(IJ)
-   US(IJ) = SQRT(UU**2 + VV**2)
+   US(IJ) = MAX(SQRT(UU**2 + VV**2),1.0)
    IF (US(IJ).NE.0.) DS(IJ) = ATAN2(UU,VV)
    IF (DS(IJ).LT.0.) DS(IJ) = DS(IJ) + ZPI
 END DO
