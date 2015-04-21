@@ -41,7 +41,7 @@ wam: wam_file_module.o wam_general_module.o wam_timopt_module.o wam_fre_dir_modu
 	print_wam_status.o read_wind_input_metno.o read_current_input.o wamodel.o read_boundary_input.o \
 	read_ice_input_metno.o jafu.o wam_mpi_comp_module.o wam_assi_set_up_module.o \
 	wam_assi_module.o wam_coordinate_module.o readsat.o chief.o
-	$(FC) $(INC) $(FFLAGS) $^ -lmpi -L${NCDIR}/lib -lnetcdff -o $@ 
+	$(FC) $(INC) $(FFLAGS) $^ -lmpi -L${NCDIR}/lib -I${NCDIR}/include -lnetcdff -o $@ 
 
 pnetcdf: wam_mpi_module.o wam_file_module.o wam_timopt_module.o \
 	wam_model_module.o wam_source_module.o wam_fre_dir_module.o wam_interface_module.o \
@@ -91,7 +91,7 @@ read_topo_input.o: wam_general_module.o
 #read_preproc_user.o:
 
 # rules for creating objects that need netcdf
-read_wind_input_met.no.o: read_wind_input_metno.f90
+read_wind_input_metno.o: read_wind_input_metno.f90
 	$(FC) $(INC) $(FFLAGS) -I${NCDIR}/include -L${NCDIR}/lib -lnetcdff  -c -o $@ $<
 
 read_ice_input_metno.o: read_ice_input_metno.f90
