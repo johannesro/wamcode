@@ -985,10 +985,12 @@ INTEGER, INTENT(IN)  :: INDEP (:)    !! DEPTH TABLE INDEX
 !     LOCAL VARIABLES.                                                         !
 !     ----------------                                                         !
 
-REAL, PARAMETER :: CDIS = 2.1          !! DISSIPATION CONSTANT
+!O. Saetra , J Rohrs: change CDIS from 2.1 to 1.33 and 
+! DELTA from 0.6 to 0.5 to make MyWaveWAM consistent with ECWAM
+REAL, PARAMETER :: CDIS = 1.33          !! DISSIPATION CONSTANT
 REAL, PARAMETER :: CONSD = -CDIS*ZPI**9/G**4
 REAL, PARAMETER :: CONSS = -CDIS*ZPI
-REAL, PARAMETER :: DELTA = 0.6         !! WEIGHT LINEAR, QUADRATIC PART.
+REAL, PARAMETER :: DELTA = 0.5         !! WEIGHT LINEAR, QUADRATIC PART.
 
 INTEGER :: K, M
 REAL   :: TEMP1(SIZE(F,1)), SDS(SIZE(F,1))
