@@ -5,7 +5,8 @@ SUBROUTINE READ_WIND_INPUT
 !   READ_WIND_INPUT - ROUTINE TO READ WINDFIELDS.                              !
 !                                                                              !
 !     HEINZ GUNTHER    GKSS    JANUARY 2001                                    !
-!     ANA CARRASCO             SEPTEMBER 2013                                  !
+!     ANA CARRASCO             NOVEMBER  2014  reads netcdf                    !
+!     ANA CARRASCO             MAY 2015 check each date in input file          !
 !                                                                              !
 !     PURPOSE.                                                                 !
 !     --------                                                                 !
@@ -57,7 +58,8 @@ SUBROUTINE READ_WIND_INPUT
 
 
 
-USE WAM_GENERAL_MODULE, ONLY:  &
+USE WAM_GENERAL_MODULE, ONLY:    &
+&       ABORT1,                  & !! TERMINATES PROCESSING.
 &       INCDATE                  !! UPDATES A DATE/TIME GROUP.
 
 
@@ -72,7 +74,7 @@ USE WAM_WIND_MODULE,       ONLY: &
 !     -----------------                                                        !
 
 USE WAM_FILE_MODULE, ONLY: IU06, ITEST, IU01, FILE01
-
+use wam_wind_module,    only: IDELWI !! IDELWI=MODEL WIND INPUT TIME STEP      !
 USE NETCDF
 
 IMPLICIT NONE
@@ -90,15 +92,15 @@ INTEGER, SAVE         :: N_LON      !! NUMBER OF LONGITUDES IN GRID.
 INTEGER, SAVE         :: N_LAT      !! NUMBER OF LATITUDES IN GRID.
 REAL (KIND=KIND_D)    :: D_LAT      !! LATITUDE INCREMENT OF GRID [DEG].
 REAL (KIND=KIND_D)    :: D_LON      !! LONGITUDE INCREMENT OF GRID [DEG].
-INTEGER, SAVE         :: D_TIME     !! TIME INCREMENT [SEC].
+INTEGER               :: D_TIME     !! TIME INCREMENT [SEC].
 REAL (KIND=KIND_D)    :: SOUTH      !! SOUTH LATITUDE OF GRID [DEG].
 REAL (KIND=KIND_D)    :: NORTH      !! NORTH LATITUDE OF GRID [DEG].
 REAL (KIND=KIND_D)    :: WEST       !! WEST LONGITUDE OF GRID [DEG].
 REAL (KIND=KIND_D)    :: EAST       !! EAST LONGITUDE OF GRID [DEG].
 REAL,    ALLOCATABLE  :: U_MAP(:,:) !! 1. COMPONENT OF WIND MAP [M/S].
 REAL,    ALLOCATABLE  :: V_MAP(:,:) !! 2. COMPONENT OF WIND MAP [M/S].
-REAL*8,  ALLOCATABLE  :: time(:)   !! TIME
-CHARACTER (LEN=14), SAVE :: CDTWIR     !! DATE/TIME OF WIND FIELD
+REAL*8,  ALLOCATABLE  :: wtime(:)   !! Wind TIME
+CHARACTER (LEN=14), SAVE     :: CDTWIR     !! DATE/TIME OF WIND FIELD
 CHARACTER (LEN=14)     :: firstdate
 
 LOGICAL, SAVE  :: FRSTIME = .TRUE.
@@ -107,6 +109,8 @@ INTEGER        :: LENF
 INTEGER, SAVE  :: ITIMES
 INTEGER, SAVE  :: U10id, V10id, NTIMES 
 INTEGER, SAVE  :: ncid,timeid
+INTEGER, SAVE  :: status,timefact
+REAL,    SAVE  :: sfu,sfv,ofsu,ofsv
 ! ---------------------------------------------------------------------------- !
 !                                                                              !
 !     1. FOR FIRST CALL: OPEN FILE AND READ HEADER.                            !
@@ -121,7 +125,7 @@ IF (FRSTIME) THEN
    
   
   !Open existing  netcdf file
-   WRITE(IU06,*)'open wind file', FILE01(1:LENF)                                             !
+   WRITE(IU06,*)'open wind file', FILE01(1:LENF)                               
 
    CALL Pf(nf90_open(path = FILE01(1:LENF), mode = nf90_nowrite, ncid = ncid))
    
@@ -129,7 +133,7 @@ IF (FRSTIME) THEN
    !Read the headers
  
    CALL readheaderWINDSnc(ncid,N_LON,N_LAT,D_LON, &
-&                         D_LAT,  D_TIME, NORTH, SOUTH,EAST, WEST,U10id, &
+&                         D_LAT, timefact, NORTH, SOUTH,EAST, WEST,U10id, &
 &                         V10id,timeid, NTIMES,firstdate) 
    
    CDTWIR=firstdate
@@ -138,6 +142,26 @@ IF (FRSTIME) THEN
 &                        D_LON=D_LON, D_LAT=D_LAT,    &
 &                        N_LON=N_LON, N_LAT=N_LAT,    &
 &                        CODE=ICODE)
+
+! ask if there are the scale_factor and add_offset attributes
+   
+      status = nf90_get_att(ncid,U10id,"scale_factor",sfu)
+      IF (status == -43) sfu=1.0
+      status = nf90_get_att(ncid,V10id,"scale_factor",sfv)
+      IF (status == -43) sfv=1.0 
+      status = nf90_get_att(ncid,U10id,"add_offset",ofsu)
+      IF (status == -43) ofsu = 0.0     
+      status = nf90_get_att(ncid,V10id,"add_offset",ofsv)
+      IF (status == -43) ofsv = 0.0
+      IF (ITEST.GT.0) then
+         WRITE(IU06,*)'scale factor for U10 sfu=',sfu
+         WRITE(IU06,*)'scale factor for V10 sfv',sfv 
+         WRITE(IU06,*)'Offset for U10 ofsu=',ofsu
+         WRITE(IU06,*)'Offset for V10 ofsv=',ofsv
+      endif
+
+
+
    IF (ITEST.GT.0) CALL PRINT_WIND_STATUS
    
    FRSTIME = .FALSE.
@@ -152,7 +176,7 @@ END IF
 
 IF (.NOT.ALLOCATED(U_MAP) ) ALLOCATE(U_MAP(N_LON,N_LAT))
 IF (.NOT.ALLOCATED(V_MAP) ) ALLOCATE(V_MAP(N_LON,N_LAT))
-IF (.NOT.ALLOCATED(time) )  ALLOCATE(time(NTIMES))     
+IF (.NOT.ALLOCATED(wtime) )  ALLOCATE(wtime(2))     
 !  
 
 ! ---------------------------------------------------------------------------- !
@@ -161,22 +185,51 @@ IF (.NOT.ALLOCATED(time) )  ALLOCATE(time(NTIMES))
 !       -------------------
   
    ITIMES = 1 + ITIMES
-!   CALL Pf(nf90_get_var(ncid, timeid, time(:), start = (/ ITIMES-1 /), &
-!&                          count = (/ ITIMES /))
-   WRITE(IU06,*)'N_LON, N_LAT =',N_LON, N_LAT                                               !
+
+   WRITE(IU06,*)'N_LON, N_LAT =',N_LON, N_LAT              
  
    CALL Pf(nf90_get_var(ncid, V10id, V_MAP(:, :), start = (/ 1, 1, ITIMES /),&
-&                       count = (/N_LON , N_LAT, 1/))) 
+&                       count = (/N_LON , N_LAT, 1/)))
+   V_MAP=V_MAP*sfv + ofsv
+ 
    CALL Pf(nf90_get_var(ncid, U10id, U_MAP(:, :), start = (/ 1, 1, ITIMES /),&
 &                        count = (/N_LON , N_LAT, 1/)))
-!    3. GET date    
-  
-   WRITE(IU06,*)'D_TIME =',D_TIME                                               !
-   CALL INCDATE(CDTWIR, D_TIME)  
-   
+
+   U_MAP=U_MAP*sfu + ofsu
+
+!    3. GET WIND date    
+
+   IF  (ITIMES.GT.1) THEN  
+   CALL Pf(nf90_get_var(ncid, timeid, wtime(:), start = (/ITIMES - 1/),     &
+&               count = (/ 2 /)))
+
+      !D_TIME is the time step of the input wind file at ITIMES
+      D_TIME=NINT( (wtime(2)-wtime(1))*timefact )
+      
+
+      IF (abs(D_TIME-IDELWI).GT.2) THEN
+         WRITE (IU06,*) ' ****************************************************'
+         WRITE (IU06,*) ' *                                                  *'
+         WRITE (IU06,*) ' *    FATAL ERROR IN SUB. READ_WIND_INPUT_METNO     *'
+         WRITE (IU06,*) ' *    ========================================      *'
+         WRITE (IU06,*) ' *                                                  *'
+         WRITE (IU06,*) ' * READ ERROR ON WIND FILE', FILE01,'               *'
+         WRITE (IU06,*) ' * Time increment in the wind file =', D_TIME,'     *'
+         WRITE (IU06,*) ' * Is different from  expected     =', IDELWI,'     *'
+         WRITE (IU06,*) ' * At time =  ',CDTWIR,'                            *'
+         WRITE (IU06,*) ' * With number of time = ',ITIMES,'                 *'
+         WRITE (IU06,*) ' *         PROGRAM ABORTS  PROGRAM ABORTS           *'
+         WRITE (IU06,*) ' *                                                  *'
+         WRITE (IU06,*) ' ****************************************************'
+         CALL ABORT1
+      END IF
+
+        CALL INCDATE(CDTWIR, D_TIME)  
+
+   END IF
+
 
    CALL SET_WIND_FIELD (CDTWIR, U_MAP, V_MAP)
-
 ! ---------------------------------------------------------------------------- !
 !                                                                              !
 !    4. WRITE TEST OUTPUT AND DEALLOCATE ARRAYS.                               !
@@ -184,22 +237,22 @@ IF (.NOT.ALLOCATED(time) )  ALLOCATE(time(NTIMES))
 
 IF (ITEST.GT.1) THEN
    WRITE(IU06,*) ' READ_WIND_INPUT -  WIND FIELD FOR THE CDTWIR = ', CDTWIR
-   WRITE(IU06,'(1X,24F5.2)') U_MAP(1:MIN(24,N_LON),1:MIN(5,N_LAT))
+   WRITE(IU06,*) 'U_MAP',U_MAP(1:MIN(10,N_LON),1:MIN(5,N_LAT))
    WRITE(IU06,*) ' '
-   WRITE(IU06,'(1X,24F5.2)') V_MAP(1:MIN(24,N_LON),1:MIN(5,N_LAT))
+   WRITE(IU06,*) 'V_MAP',V_MAP(1:MIN(10,N_LON),1:MIN(5,N_LAT))
 END IF
 
   
-DEALLOCATE(U_MAP)
-DEALLOCATE(V_MAP)
-DEALLOCATE(time)
+IF (ALLOCATED(U_MAP)) DEALLOCATE(U_MAP)
+IF (ALLOCATED(V_MAP)) DEALLOCATE(V_MAP)
+IF (ALLOCATED(wtime)) DEALLOCATE(wtime)
 
 RETURN
 
 CONTAINS
 
 SUBROUTINE  readheaderWINDSnc(ncid,N_LON,N_LAT,D_LON, &
-&                         D_LAT,  D_TIME, NORTH, SOUTH,EAST, WEST,U10id, &
+&                         D_LAT, timefact, NORTH, SOUTH,EAST, WEST,U10id, &
 &                         V10id,timeid, NTIMES,firstdate) 
 USE NETCDF
 
@@ -222,23 +275,28 @@ integer :: numDims, numAtts
 integer :: NTIMES
 real*8,    dimension(:),allocatable ::xlon
 real*8,    dimension(:),allocatable ::ylat
-integer*8,    dimension(:),allocatable ::time
-real*8  :: DT
+real*8,    dimension(:),allocatable ::wtime
 integer ::N_LON,  N_LAT
 real*8  ::D_LON, D_LAT, NORTH, SOUTH,EAST, WEST
-integer ::D_TIME
 integer, dimension(nf90_max_var_dims) :: dimIDs
-integer    ::fact
+integer    ::timefact
 integer*8  ::sectodate
 
-!Name of the wind components 
-  x_varname='x_wind'
-  y_varname='y_wind'
- 
-!Check if there is a variable named  x_wind  and get the ID   
-      CALL Pf(nf90_inq_varid(ncid, x_varname, U10id))
-!Check if there is a variable named  y_wind  and get the ID   
-      CALL Pf(nf90_inq_varid(ncid, y_varname, V10id))    
+!Name of the wind components ??
+  x_varname='x_wind'  !first guess
+  status = nf90_inq_varid(ncid, x_varname, U10id)   
+      if (status == -49) then 
+         x_varname='Uwind'   !second guess
+         status = nf90_inq_varid(ncid, x_varname, U10id)
+      endif
+
+  y_varname='y_wind' !first guess
+  status = nf90_inq_varid(ncid, y_varname, V10id)   
+      if (status == -49) then 
+         y_varname='Vwind'   !second guess
+         status = nf90_inq_varid(ncid, y_varname, V10id)
+      endif
+  
 !Check if there is a variable named time and get the ID   
       CALL Pf(nf90_inq_varid(ncid,"time",timeid))
 !Get the Number of dimensions of wind variables
@@ -261,8 +319,7 @@ integer*8  ::sectodate
       CALL Pf(nf90_inquire_dimension(ncid, dimIDs(numDims), len = NTIMES))
       WRITE(IU06,*)'NTIMES=',NTIMES
 
-!WRITE(IU06,*)'N_LON N_LAT NTIMES',N_LON,N_LAT,NTIMES
-!Get the values of the lons 
+!Get the values of the longitude limits assuming regular grid
       allocate(xlon(N_LON))
       CALL Pf(nf90_get_var(ncid,lonid,xlon))
       D_LON=xlon(2)-xlon(1)
@@ -270,7 +327,7 @@ integer*8  ::sectodate
       WEST=MINVAL(xlon)
 
 
-!Get the values of the lats
+!Get the values of the latitude limits assuming regular grid
       allocate(ylat(N_LAT))
       CALL Pf(nf90_get_var(ncid,latid,ylat))       
       D_LAT=ylat(2)-ylat(1)
@@ -281,12 +338,14 @@ integer*8  ::sectodate
       SOUTH=MINVAL(ylat)
      
 
-!Get the values of the times
-      allocate(time(NTIMES))
-      CALL Pf(nf90_get_var(ncid, timeid, time))   
-      write(IU06,*)'time(1),time(2)',time(1),time(2)
-      DT=(time(2)-time(1))
-WRITE(IU06,*)'EAST,WEST,NORTH,SOUTH, D_TIME',EAST,WEST,NORTH,SOUTH, DT
+!Get the first time
+      allocate(wtime(2))
+      CALL Pf(nf90_get_var(ncid, timeid, wtime(:),start = (/ 1/),     &
+&               count = (/ 2 /)))
+      write(IU06,*)'time(1)',wtime(1)
+      
+WRITE(IU06,*)'EAST,WEST,NORTH,SOUTH',EAST,WEST,NORTH,SOUTH
+
 !Get the units of the time
       time_units=''
       CALL Pf(nf90_get_att(ncid, timeid, 'units', time_units))     
@@ -299,7 +358,7 @@ WRITE(IU06,*)'EAST,WEST,NORTH,SOUTH, D_TIME',EAST,WEST,NORTH,SOUTH, DT
          hh=time_units(23:24)
          mi=time_units(26:27)
          ss=time_units(29:30)
-         fact=24*60*60 !because time must be in sec
+         timefact=24*60*60 !because time must be in sec
       elseif (time_units(1:4).eq.'hour') then
          yyyy=time_units(13:16)
          mm=time_units(18:19)
@@ -308,7 +367,7 @@ WRITE(IU06,*)'EAST,WEST,NORTH,SOUTH, D_TIME',EAST,WEST,NORTH,SOUTH, DT
          mi=time_units(27:28)
          !ss=time_units(30:32)
          ss='00' !!!OJO 
-         fact=60*60 !because time must be in sec
+         timefact=60*60 !because time must be in sec
     
       elseif (time_units(1:4).eq.'seco') then
          yyyy=time_units(15:18)
@@ -317,17 +376,15 @@ WRITE(IU06,*)'EAST,WEST,NORTH,SOUTH, D_TIME',EAST,WEST,NORTH,SOUTH, DT
          hh=time_units(26:27)
          mi=time_units(29:30)
          ss=time_units(32:33)
-         fact= 1
+         timefact= 1
       endif
-      WRITE(IU06,*)'fact',fact
-      WRITE(IU06,*)'DT*fact',DT*fact
-      D_TIME=NINT(DT*fact)
-      WRITE(IU06,*)'D_TIME=',D_TIME
-      firstdate=yyyy//mm//dd//hh//mi//ss
-      WRITE(IU06,*)'firstdate=', firstdate
-      
-      sectodate= time(1)*fact-D_TIME 
+       WRITE(IU06,*)'timefact ',timefact
      
+      firstdate=yyyy//mm//dd//hh//mi//ss
+      
+      !sectodate= time(1)*timefact - NINT(DT*timefact)
+       sectodate= wtime(1)*timefact 
+      
       WRITE(IU06,*)'sectodate',sectodate
       CALL INCDATELONGAGO (firstdate, sectodate)
       WRITE(IU06,*)'firstdate=', firstdate
@@ -339,8 +396,9 @@ WRITE(IU06,*)'EAST,WEST,NORTH,SOUTH, D_TIME',EAST,WEST,NORTH,SOUTH, DT
          !hours since 1900-01-01 00:00:0.0" 
          !12345678901234567890123456789012
 
-
-
+deallocate(xlon)
+deallocate(ylat)
+deallocate(wtime)
 end SUBROUTINE readheaderWINDSnc
 !################################################
 !# 	pf      write a NetCDF-error message    #
