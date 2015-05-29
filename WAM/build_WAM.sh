@@ -4,7 +4,7 @@
 SRC=src
 
 # makefile
-MKF=mk/makefile_vilje.mk
+MKF=mk/makefile_ubuntu.mk
 
 # location for executables
 EXE=abs

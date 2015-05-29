@@ -13,18 +13,18 @@
 
 
 WAMDIR=..
-WORK=../run
+WORK=..
 
 if [ ! -d ${WORK} ]; then mkdir -p ${WORK}; fi
 
 t=${WORK}/tempsg
 if [ ! -d $t ]; then mkdir -p $t; fi
 cd ${t}
-cp ${WAMDIR}/const/TOPOCAT.DAT .
+cp ${WAMDIR}/const/LABTOPO.DAT .
 cp ${WAMDIR}/const/Preproc_User_COARSE Preproc_User
 #cp ${WAMDIR}/const/Preproc_User .
 cp ${WAMDIR}/abs/preproc preproc.exe
-
+ls -l ${WAMDIR}
 #/opt/sgi/mpt/mpt-2.0 5/bin/mpirun -np 1  preproc.exe
 mpirun -np 1  preproc.exe
 #

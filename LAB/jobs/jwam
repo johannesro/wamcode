@@ -15,11 +15,11 @@
 #export MPI_STATS=1
 #export MPI_BUFS_PER_PROC=256
 #export MPI_BUFS_PER_HOST=1024
-export PATH=/disk1/local/openmpi_gfortran/bin:$PATH
+#export PATH=/disk1/local/openmpi_gfortran/bin:$PATH
 which mpirun
 
 WAMDIR=..
-WORK=../run
+WORK=..
 
 t=${WORK}/ready
 if [ ! -d $t ]; then mkdir -p $t; fi
@@ -34,7 +34,7 @@ cp ${WAMDIR}/abs/wam wam.exe
 
 
 #mpiexec_mpt  -np 4 wam.exe
-mpirun -np 4 wam.exe
+mpirun -np 1 wam.exe
 
 #
 cp logfile.0 ${WAMDIR}/dayfiles/wam_prot_c
