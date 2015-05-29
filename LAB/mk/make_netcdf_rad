@@ -1,0 +1,19 @@
+#!/bin/sh
+set -ex
+. ${0%/*}/.dirset
+path_o=${PRODADMDIR}/obj
+path_f=${PRODADMDIR}/src/print
+
+
+modfile="wam_rad_netcdf_module make_rad_netcdf"
+
+cd $path_o
+
+for code in $modfile
+do
+   rm -f ${code}.f90 ${code}.o
+   cp ${path_f}/${code}.f90 ${path_o}/${code}.f
+   #mpif90 -c ${code}.f90 -I$NETCDFHOME/include -L$NETCDFHOME/lib -lnetcdf -lnetcdff
+   ifort -free -c ${code}.f -O3 -xAVX -traceback -ip -align all -ftz -fno-alias -no-prec-div -no-prec-sqrt
+   rm -f ${code}.f
+done
