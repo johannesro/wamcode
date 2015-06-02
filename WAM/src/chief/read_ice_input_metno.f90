@@ -301,9 +301,11 @@ integer    ::status
      
 
 !Get the values of the times
-     
-      allocate(time(NTIMES))
-      
+      if (NTIMES.eq.0 ) THEN
+           allocate(time(1))
+      ELSE
+         allocate(time(NTIMES))
+      ENDIF
 
       IF (NTIMES.ge.1) THEN   
          CALL Pf(nf90_get_var(ncid, timeid, time))
