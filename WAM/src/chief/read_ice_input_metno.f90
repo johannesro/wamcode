@@ -174,7 +174,7 @@ ELSE
 ENDIF
 
 ! convert ice concentration to ice cover
-ICE_GRID = INT(ICE_conc*sf + ofs)
+ICE_GRID = CEILING(ICE_conc*sf + ofs)
 
 
 ! ---------------------------------------------------------------------------- !
