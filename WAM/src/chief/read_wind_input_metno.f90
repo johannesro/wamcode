@@ -288,6 +288,10 @@ integer*8  ::sectodate
       if (status == -49) then 
          x_varname='Uwind'   !second guess
          status = nf90_inq_varid(ncid, x_varname, U10id)
+         if (status == -49) then
+         x_varname='u10'   !third guess
+         status = nf90_inq_varid(ncid, x_varname, U10id)
+         endif 
       endif
 
   y_varname='y_wind' !first guess
@@ -295,6 +299,10 @@ integer*8  ::sectodate
       if (status == -49) then 
          y_varname='Vwind'   !second guess
          status = nf90_inq_varid(ncid, y_varname, V10id)
+         if (status == -49) then
+         y_varname='v10'   !third guess
+         status = nf90_inq_varid(ncid, y_varname, V10id)
+         endif
       endif
   
 !Check if there is a variable named time and get the ID   
