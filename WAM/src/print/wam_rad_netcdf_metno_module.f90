@@ -8,6 +8,8 @@
 !#      Arno Behrens   GKSS    October 2010             #
 !#      Arno Behrens   HZG     June 2014                #
 !#                             rad parameters           #
+!#      Ana Carrsco    METNo   Jan 2015                 #
+!#                             add metno attributes     #       
 !#							#
 !########################################################
 !
@@ -55,6 +57,9 @@ implicit none
 character (len=16), intent(in) :: name
 character (len=14), intent(in) :: sd
 logical, intent(in) :: cflag_p(:)
+logical, dimension(5) :: ismember
+integer, dimension(5) :: metn
+
 real :: amowep, amosop, xdella, xdello
 
 character (len=33) :: tua
@@ -65,7 +70,7 @@ character (len=100), dimension (4,nf) :: vl
 integer, dimension (3)   :: diid
 integer, dimension (0:2) :: did
 integer, dimension (nf)  :: flg, ty
-integer :: n, m, l, i, loop
+integer :: n, m, l, i, j, loop
     
 real*8 :: dtor, dt
 real*4, dimension (nf) :: fw, vmin, vmax
@@ -155,20 +160,34 @@ IF (ncid(0)<0) THEN
    CALL Pf(NF90_DEF_VAR(ncid(0),'lat',NF90_FLOAT,[diid(2)],ncid(nf+1)))
    CALL Pf(NF90_DEF_VAR(ncid(0),'lon',NF90_FLOAT,[diid(3)],ncid(nf+2)))
    CALL Pf(NF90_DEF_VAR(ncid(0),'time',NF90_INT,[diid(1)],ncid(nf+3)))
+   CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+3),'standard_name','time'))
+   CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+3),'calendar',"gregorian"))
    CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+3),'delta_t',tda))
    CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+3),'units',tua))
    CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+3),'dt',i))
 
-   CALL Pf(NF90_PUT_ATT(ncid(0),NF90_GLOBAL,'Conventions','CF-1.0'))
+   CALL Pf(NF90_PUT_ATT(ncid(0),NF90_GLOBAL,'Conventions','CF-1.6'))
    CALL Pf(NF90_PUT_ATT(ncid(0),NF90_GLOBAL,'institution',metno))
 
-
+     metn=(/ 1, 2, 3, 5, 6/)
+ 
    DO i=1,nf
       IF (flg(i)>0) THEN
          CALL Pf(NF90_DEF_VAR(ncid(0),vl(1,i),ty(i),diid(did),ncid(i)))
          CALL Pf(NF90_PUT_ATT(ncid(0),ncid(i),'_FillValue',fw(i)))
          call pf(nf90_put_att(ncid(0),ncid(i),'long_name',vl(3,i)))
-         call pf(nf90_put_att(ncid(0),ncid(i),'standard_name',vl(2,i)))
+          do j=1,size(metn)
+            if (i.eq.metn(j)) then
+               ismember(j)=.true.
+            else
+               ismember(j)=.false.
+            endif
+         end do
+         IF (ANY(ismember)) THEN 
+            call pf(nf90_put_att(ncid(0),ncid(i),'metno_name',vl(2,i)))
+         ELSE
+            call pf(nf90_put_att(ncid(0),ncid(i),'standard_name',vl(2,i)))
+         ENDIF
          call pf(nf90_put_att(ncid(0),ncid(i),'units',vl(4,i)))
          !call pf(nf90_put_att(ncid(0),ncid(i),'valid_min',vmin(i)))
          !call pf(nf90_put_att(ncid(0),ncid(i),'valid_max',vmax(i)))
