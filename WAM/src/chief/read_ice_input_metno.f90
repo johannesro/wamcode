@@ -96,7 +96,8 @@ REAL (KIND=KIND_D)    :: NORTH         !! NORTH LATITUDE OF GRID [DEG].
 REAL (KIND=KIND_D)    :: WEST          !! WEST LONGITUDE OF GRID [DEG].
 REAL (KIND=KIND_D)    :: EAST          !! EAST LONGITUDE OF GRID [DEG].
 INTEGER, ALLOCATABLE  :: ICE_GRID(:,:) !! ICE MAP (ice coverage as 0 or 1 mask
-REAL, ALLOCATABLE     :: ICE_conc(:,:) !! Ice concentration between 0 and 1 
+REAL, ALLOCATABLE     :: ICE_conc(:,:) !! Ice concentration between 0 and 1
+REAL*8,  ALLOCATABLE  :: itime(:)      !! Ice time
 CHARACTER (LEN=14), SAVE :: CDTICE         !! ICE DATE
 CHARACTER (LEN=14)    :: firstdate      !! 
 LOGICAL, SAVE         :: FRSTIME = .TRUE.
@@ -104,8 +105,12 @@ LOGICAL, SAVE         :: FRSTIME = .TRUE.
 integer, SAVE  :: D_TIME
 INTEGER        :: LENF
 INTEGER, SAVE  :: ITIMES
-INTEGER, SAVE  :: NTIMES 
+INTEGER, SAVE  :: NTIMES,timefact 
 INTEGER, SAVE  :: ICEid,ncid,timeid
+REAL,    SAVE  :: sf,ofs
+INTEGER :: I,J
+INTEGER        ::status,statusSC,statusOS
+
 ! ---------------------------------------------------------------------------- !
 !                                                                              !
 !     1. OPEN ICE DATA FILE.                                                   !
@@ -123,13 +128,22 @@ IF (FRSTIME) THEN
 
  
    CALL readheaderICEnc(ncid,NX_ICE,NY_ICE,D_LON, &
-&                         D_LAT,D_TIME,NORTH,SOUTH,EAST,WEST,ICEid, &
+&                         D_LAT,timefact,NORTH,SOUTH,EAST,WEST,ICEid, &
 &                         timeid, NTIMES,firstdate) 
    
    CDTICE=firstdate
    ITIMES=0
    CALL SET_ICE_HEADER (WEST, SOUTH, EAST, NORTH, D_LON, D_LAT)
 
+! Check if there are scale_factor and add_offset attributes
+      statusSC = nf90_get_att(ncid,ICEid,"scale_factor",sf)
+      IF (statusSC == -43) sf=1.0
+      statusOS = nf90_get_att(ncid,ICEid,"add_offset",ofs)
+      IF (statusOS == -43) ofs = 0.0     
+      IF (ITEST.GT.0) then
+         WRITE(IU06,*)'scale factor for ICE sf=',sf 
+         WRITE(IU06,*)'Offset for ICE ofs=',ofs
+      endif
    FRSTIME = .FALSE.
 END IF
 
@@ -141,12 +155,17 @@ END IF
 
 IF (.NOT.ALLOCATED(ICE_GRID)) ALLOCATE (ICE_GRID(1:NX_ICE,1:NY_ICE))
 IF (.NOT.ALLOCATED(ICE_conc)) ALLOCATE (ICE_conc(1:NX_ICE,1:NY_ICE))
+IF (.NOT.ALLOCATED(itime) )  ALLOCATE(itime(2))     
+!  
 
 IF (NTIMES.gt.1) THEN
    ITIMES = 1 + ITIMES
    CALL Pf(nf90_get_var(ncid, ICEid, ICE_conc(:, :),& 
 &          start = (/ 1, 1, ITIMES /),&                      
 &          count = (/NX_ICE , NY_ICE, 1/))) 
+   CALL Pf(nf90_get_var(ncid, timeid, itime(:), start = (/ITIMES - 1/),     &
+&               count = (/ 2 /)))
+   D_TIME=NINT( (itime(2)-itime(1))*timefact )
    CALL INCDATE(CDTICE, D_TIME)  
 ELSE
    CALL Pf(nf90_get_var(ncid, ICEid, ICE_conc(:, :),&
@@ -155,8 +174,7 @@ ELSE
 ENDIF
 
 ! convert ice concentration to ice cover
-ICE_GRID = 0
-where (ICE_conc .gt. 0.5) ICE_GRID = 1 
+ICE_GRID = CEILING(ICE_conc*sf + ofs)
 
 
 ! ---------------------------------------------------------------------------- !
@@ -178,6 +196,7 @@ END IF
 
 IF (ALLOCATED(ICE_GRID)) DEALLOCATE (ICE_GRID)
 IF (ALLOCATED(ICE_conc)) DEALLOCATE (ICE_conc)
+IF (ALLOCATED(itime)) DEALLOCATE (itime)
 
 RETURN
 
@@ -185,7 +204,7 @@ CONTAINS
 
 ! ----------------
 SUBROUTINE  readheaderICEnc(ncid,N_LON,N_LAT,D_LON, &
-&                         D_LAT,  D_TIME, NORTH, SOUTH,EAST, WEST,ICEid, &
+&                         D_LAT, timefact, NORTH, SOUTH,EAST, WEST,ICEid, &
 &                         timeid, NTIMES,firstdate) 
 USE NETCDF
 
@@ -208,21 +227,31 @@ integer :: numDims, numAtts
 integer :: NTIMES
 real*8,    dimension(:),allocatable ::xlon
 real*8,    dimension(:),allocatable ::ylat
-integer*8,    dimension(:),allocatable ::time
+real*8,    dimension(:),allocatable ::time
 real*8  :: DT
 integer ::N_LON,  N_LAT
 real*8  ::D_LON, D_LAT, NORTH, SOUTH,EAST, WEST
-integer ::D_TIME
 integer, dimension(nf90_max_var_dims) :: dimIDs
-integer    ::fact
+integer    ::timefact
 integer*8  ::rtime, sectodate
+integer    ::status
 
-!Name of ice varible
-  xvar='sea_ice_concentration'
- 
-!Check if there is a variable named sea_ice_concentration   and get the ID   
-      CALL Pf(nf90_inq_varid(ncid, xvar, ICEid))
- !Check if there is a variable named time and get the ID   
+! Check the name of the variable and find the id
+      xvar='sea_ice_concentration'  !first guess
+      status = nf90_inq_varid(ncid, xvar, ICEid)
+     
+      if (status == -49) then 
+           xvar='ice_conc'       !second  guess
+           status = nf90_inq_varid(ncid, xvar, ICEid)
+               if (status == -49) then 
+                  xvar='ci'          !third  guess
+                  status = nf90_inq_varid(ncid, xvar, ICEid)
+               endif
+      endif
+
+     WRITE(IU06,*)'ICEid =',ICEid, ' ICE var = ',xvar
+
+!Check if there is a variable named time and get the ID   
       CALL Pf(nf90_inq_varid(ncid,"time",timeid))
       write(IU06,*)'timeid: ',timeid
 !Get the Number of dimensions  
@@ -245,8 +274,8 @@ integer*8  ::rtime, sectodate
 !Get the number of time steps 
       IF (numDims.gt.2) THEN
          CALL Pf(nf90_inquire_dimension(ncid, dimIDs(numDims), len = NTIMES))
-      ELSE
-         NTIMES=1
+      ELSE IF (numDims.eq.2) THEN 
+         NTIMES=0
       ENDIF
 
       WRITE(IU06,*)'N_LON N_LAT NTIMES',N_LON,N_LAT,NTIMES
@@ -258,7 +287,6 @@ integer*8  ::rtime, sectodate
       D_LON=xlon(2)-xlon(1)
       EAST=MAXVAL(xlon)
       WEST=MINVAL(xlon)
-      write(IU06,*)'EAST WEST: ',EAST,WEST
 
 
 !Get the values of the lats
@@ -273,31 +301,34 @@ integer*8  ::rtime, sectodate
      
 
 !Get the values of the times
-     
-      allocate(time(NTIMES))
-      
-
-      IF (NTIMES.gt.1) THEN   
-         write(IU06,*)'timeid:',timeid
-
-         write(IU06,*)'get time:'
-         CALL Pf(nf90_get_var(ncid, timeid, time))
-         write(IU06,*)'time: ',time
-
-         write(IU06,*)'time(1),time(2)',time(1),time(2)
-         DT=INT(time(2)-time(1))
-         write(IU06,*)'D_TIME=',D_TIME
-      ELSEIF (NTIMES.eq.1) THEN 
-         !get the   forecast_reference_time 
-         CALL Pf(nf90_inq_varid(ncid,"forecast_reference_time",rtimeid))
-       
-         CALL Pf(nf90_get_var(ncid, rtimeid, rtime))
-         write(IU06,*)'In ICE file forecast_reference_time = ',rtime
-         DT=0
+      if (NTIMES.eq.0 ) THEN
+           allocate(time(1))
+      ELSE
+         allocate(time(NTIMES))
       ENDIF
 
-      WRITE(IU06,*)'EAST,WEST,NORTH,SOUTH, D_TIME',&
-&      EAST,WEST,NORTH,SOUTH, D_TIME
+      IF (NTIMES.ge.1) THEN   
+         CALL Pf(nf90_get_var(ncid, timeid, time))
+         write(IU06,*)'time vector : ',time
+         IF (NTIMES.eq.1) THEN
+             write(IU06,*)'time(1)', time(1)
+         ELSE
+             write(IU06,*)'time(1),time(2)',time(1),time(2)
+             DT=INT(time(2)-time(1))
+         ENDIF
+  
+
+      ELSEIF (NTIMES.eq.0) THEN 
+         !get the   forecast_reference_time 
+         CALL Pf(nf90_inq_varid(ncid,"forecast_reference_time",rtimeid))
+         
+         CALL Pf(nf90_get_var(ncid, rtimeid, rtime))
+         write(IU06,*)'In ICE file forecast_reference_time = ',rtime
+         
+      ENDIF
+
+      WRITE(IU06,*)'EAST,WEST,NORTH,SOUTH ',&
+&      EAST,WEST,NORTH,SOUTH
 
 !Get the units of the time
 
@@ -312,7 +343,7 @@ integer*8  ::rtime, sectodate
          hh=time_units(23:24)
          mi=time_units(26:27)
          ss=time_units(29:30)
-         fact=24*60*60 !because time must be in sec
+         timefact=24*60*60 !because time must be in sec
       elseif (time_units(1:4).eq.'hour') then
          yyyy=time_units(13:16)
          mm=time_units(18:19)
@@ -321,7 +352,7 @@ integer*8  ::rtime, sectodate
          mi=time_units(27:28)
          !ss=time_units(30:32)
          ss='00' !!!OJO 
-         fact=60*60 !because time must be in sec
+         timefact=60*60 !because time must be in sec
     
       elseif (time_units(1:4).eq.'seco') then
          yyyy=time_units(15:18)
@@ -330,25 +361,25 @@ integer*8  ::rtime, sectodate
          hh=time_units(26:27)
          mi=time_units(29:30)
          ss=time_units(32:33)
-         fact= 1
+         timefact= 1
       endif
-      WRITE(IU06,*)'fact',fact
-      WRITE(IU06,*)'DT*fact',DT*fact
-      D_TIME=NINT(DT*fact)
-      WRITE(IU06,*)'D_TIME=',D_TIME
+      WRITE(IU06,*)'timefact',timefact
+      WRITE(IU06,*)'DT*timefact',NINT(DT*timefact)
+
       firstdate=yyyy//mm//dd//hh//mi//ss
       WRITE(IU06,*)'firstdate=', firstdate
 
       IF (NTIMES.gt.1) THEN 
-         sectodate= time(1)*fact-D_TIME 
+         sectodate= time(1)*timefact-NINT(DT*timefact)
       ELSEIF (NTIMES.eq.1) THEN
-          sectodate= rtime*fact
+          sectodate= time(1)*timefact
+      ELSEIF (NTIMES.eq.0) THEN
+          sectodate= rtime*timefact
       ENDIF
 
       WRITE(IU06,*)'sectodate',sectodate
       CALL INCDATELONGAGO (firstdate, sectodate)
       WRITE(IU06,*)'firstdate=', firstdate
-      WRITE(IU06,*)'D_TIME=', D_TIME
 
          !days since 2000-01-01 00:00:00"
          !12345678901234567890
@@ -357,7 +388,9 @@ integer*8  ::rtime, sectodate
          !hours since 1900-01-01 00:00:0.0" 
          !12345678901234567890123456789012
 
-
+      IF (NTIMES.eq.0)THEN
+         NTIMES=1
+      ENDIF
 
 end SUBROUTINE readheaderICEnc
 !################################################

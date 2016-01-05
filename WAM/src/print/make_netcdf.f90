@@ -52,7 +52,7 @@ USE WAM_GENERAL_MODULE, ONLY:  &
 &       reduced_to_regular,    &  !! transformation from a reduced to a regular grid
 &       abort1
 
-use wam_netcdf_module
+use wam_netcdf_metno_module
 
 ! ---------------------------------------------------------------------------- !
 !

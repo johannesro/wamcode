@@ -20,7 +20,7 @@ C     HEADER  CHARACTER*80  TEXT TO BE PRINTED
 C
 CHEADER
 C---------+---------+---------+---------+---------+---------+---------+---------
- WAM10 WAVE MODEL RUN
+ MYLAB TEST AREA WAVE MODEL RUN
 C
 C ------------------------------------------------------------------------------
 C
@@ -56,7 +56,7 @@ C                         TEXTSTRING -DDD:MM:SS.SS OR +DDD:MM:SS.SS
 C
 C        SOUTH         NORTH          WEST          EAST
 C------------- ------------- ------------- -------------
-    -13.250000     26.650000      5.750000     30.450000 
+           0.0           4.0           0.0           4.0
 C
 C     NX        INTEGER   NUMBER OF LATITUDES.
 C     NY        INTEGER   NUMBER OF LONGITUDES.
@@ -67,7 +67,7 @@ C                         TEXTSTRING -DDD:MM:SS.SS OR +DDD:MM:SS.SS
 C
 C       NX        NY                XDELLA        XDELLO
 C------------- ------------- ------------- -------------
-          248           400       0.100000      0.100000
+            21            21           0.2           0.2
 C
 C     LAND      REAL    DEPTH >= LAND ARE SEAPOINTS [M]. (DEFAULT 0)
 C
@@ -91,7 +91,7 @@ C     XOUTD     REAL   NEW DEPTH [M] (VALUES >= LAND ARE SEA POINTS)
 C
 C        XOUTS         XOUTN         XOUTW         XOUTE      XOUTD
 C------------- ------------- ------------- ------------- ----------
-     -9.800000    -10.000000     10.000000     10.800000     3000.0
+C     -9.800000    -10.000000     10.000000     10.800000     3000.0
 C
  END      THE INPUT LIST HAS TO BE CLOSED BY THIS END LINE
 C
@@ -128,7 +128,7 @@ C      IF A BLANK LINE IS GIVEN A FINE GRID IS NOT GENERATED.
 C
 C  PREPROC OUTPUT FILE NAME FROM THE COARSE GRID PREPROC.
 C---------+---------+---------+---------+---------+---------+---------+---------
- Grid_info_COARSE
+
 C
 C ------------------------------------------------------------------------------
 C
@@ -144,7 +144,7 @@ C    ALL THE FOLLOWING FILES HAVE TO BE DEFINED BELOW.
 C
 C => TOPOGRAPHIC DATA FILE NAME (DEFAULT: -NONE-).
 C---------+---------+---------+---------+---------+---------+---------+---------
- TOPOCAT.DAT
+ LABTOPO.DAT
 C
 C   PREPROC OUTPUT FILE NAME (DEFAULT: 'Grid_Info').
 C---------+---------+---------+---------+---------+---------+---------+---------

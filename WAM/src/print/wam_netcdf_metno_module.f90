@@ -7,9 +7,13 @@
 !#      Arno Behrens   GKSS    October 2010             #
 !#      Arno Behrens   HZG     June 2014                #
 !#                             additional parameters    #
+<<<<<<< HEAD
 !#	Ana Carrasco   METno   Jan 2015                 #
 !#                             add METno and CF1.6 Conv.#
 !#                             attributes               #
+=======
+!#							#
+>>>>>>> 85566d4aab9bf2e90515bd62bc40d0fe2b9fada5
 !########################################################
 !
 module wam_netcdf_metno_module
@@ -125,6 +129,16 @@ IF (ncid(0)<0) THEN
    vmin(5)  = 0.
    vmax(5)  = 0.1
 
+<<<<<<< HEAD
+=======
+   vl(1, 6) = 'depth'
+   vl(2, 6) = 'depth'
+   vl(3, 6) = 'water depth'
+   vl(4, 6) = 'm'
+   vmin(6)  = 0
+   vmax(6)  = 8000
+
+>>>>>>> 85566d4aab9bf2e90515bd62bc40d0fe2b9fada5
    vl(1, 9) = 'hs'
    vl(2, 9) = 'sea_surface_wave_significant_height'
    vl(3, 9) = 'Total significant wave height'
@@ -357,7 +371,10 @@ IF (ncid(0)<0) THEN
    CALL Pf(NF90_DEF_VAR(ncid(0),'lon',NF90_FLOAT,[diid(3)],ncid(nf+2)))
    CALL Pf(NF90_DEF_VAR(ncid(0),'time',NF90_INT,[diid(1)],ncid(nf+3)))
    CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+3),'standard_name','time'))
+<<<<<<< HEAD
    CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+3),'axis','T'))
+=======
+>>>>>>> 85566d4aab9bf2e90515bd62bc40d0fe2b9fada5
    CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+3),'calendar',"gregorian"))
    CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+3),'delta_t',tda))
    CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+3),'units',tua))

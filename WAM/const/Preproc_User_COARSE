@@ -20,7 +20,7 @@ C     HEADER  CHARACTER*80  TEXT TO BE PRINTED
 C
 CHEADER
 C---------+---------+---------+---------+---------+---------+---------+---------
- WAM10 WAVE MODEL RUN
+ MYLAB TEST AREA WAVE MODEL RUN
 C
 C ------------------------------------------------------------------------------
 C
@@ -52,7 +52,7 @@ C =>  EAST      REAL      EASTERN LATITUDE OF GRID     [DEG].
 C
 C        SOUTH         NORTH          WEST          EAST
 C------------- ------------- ------------- -------------
-        -13.25         26.65          5.75         30.45 
+           0.0           4.0           0.0           4.0 
 C
 C =>  NX        INTEGER   NUMBER OF LATITUDES.
 C =>  NY        INTEGER   NUMBER OF LONGITUDES.
@@ -61,7 +61,7 @@ C =>  XDELLO    REAL      GRID INCREMENT FOR LONGITUDE [DEG].
 C
 C       NX        NY                XDELLA        XDELLO
 C------------- ------------- ------------- -------------
-           248           400           0.1           0.1
+            21            21           0.2           0.2
 C
 C     LAND      REAL    DEPTH >= LAND ARE SEAPOINTS [M]. (DEFAULT 0)
 C
@@ -83,7 +83,7 @@ C     XOUTD     REAL       NEW DEPTH IN METRES (-999.0 IS LAND)
 C
 C        XOUTS         XOUTN         XOUTW         XOUTE      XOUTD
 C------------- ------------- ------------- ------------- ----------
-     -9.800000    -10.000000     10.000000     10.800000     3000.0
+C     -9.800000    -10.000000     10.000000     10.800000     3000.0
  END      THE INPUT LIST HAS TO BE CLOSED BY THIS END LINE
 C
 C ------------------------------------------------------------------------------

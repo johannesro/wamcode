@@ -1,0 +1,43 @@
+#!/bin/sh
+#PBS -o preproc_coarse.log
+#PBS -e preproc_coarse.err
+#PBS -N  preproc_coarse
+# Account to run job (change the account name: See Accounting above)
+#PBS -A nn2857k
+#PBS -l select=1:ncpus=1
+#PBS -l walltime=1:00:00
+#-----------------------------------------------
+#-----------------------------------------------
+#
+#module load intelcomp/13.0.1 mpt/2.06 netcdf/4.3.0
+
+
+WAMDIR=..
+WORK=..
+
+if [ ! -d ${WORK} ]; then mkdir -p ${WORK}; fi
+
+t=${WORK}/tempsg
+if [ ! -d $t ]; then mkdir -p $t; fi
+cd ${t}
+cp ${WAMDIR}/const/LABTOPO.DAT .
+cp ${WAMDIR}/const/Preproc_User_COARSE Preproc_User
+#cp ${WAMDIR}/const/Preproc_User .
+cp ${WAMDIR}/abs/preproc preproc.exe
+ls -l ${WAMDIR}
+#/opt/sgi/mpt/mpt-2.0 5/bin/mpirun -np 1  preproc.exe
+mpirun -np 1  preproc.exe
+#
+mv Preproc_Prot ${WAMDIR}/dayfiles/preproc_prot_coarse
+w=${WORK}/work
+if [ ! -d $w ]; then mkdir -p $w; fi
+
+cp Grid_info*  ${w}
+
+#rm Preproc_User preproc.exe TOPOCAT.DAT
+#
+# ===================================================================
+#  GRID FILES HAVE BEEN CREATED AND SAVED.
+#  END OF JOB PREPROC.
+# ===================================================================
+#
