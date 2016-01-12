@@ -18,6 +18,8 @@ module wam_rad_netcdf_metno_module
 use wam_file_module,          only: iu06
 use wam_print_module,         only: nx, ny, amosop, amowep, xdello, xdella
 use wam_output_set_up_module, only: idelint
+use wam_general_module,       only: difdate
+
     
 implicit none
 private
@@ -30,8 +32,10 @@ character (len=14), save :: fsd
 
 real*8, allocatable, dimension (:) :: lat
 real*8, allocatable, dimension (:) :: lon
+character (len=14)       :: Basedate
+real                     :: hradd      
      
-public wknco, wkncw, wkncc, pf, nx, ny
+public wknco, wkncw, wkncc, pf, nx, ny, hradd
 
 contains
 
@@ -151,15 +155,18 @@ IF (ncid(0)<0) THEN
    did = [3,2,1]
    i = dt
    WRITE(tda,'("0000-00-00 (",2(i2.2,":"),i2.2,")")')i/3600,MOD(i/60,60),MOD(i,60)
-   tua="seconds since "//sd(1:4)//"-"//sd(5:6)//"-"//sd(7:8)//" "//sd(9:10)//":"//sd(11:12)//":"//sd(13:14)
-     
+   Basedate = '19700101000000'
+   call DIFFDATEHR(Basedate, sd ,hradd)
+   
+   tua="hours since "//Basedate(1:4)//"-"//Basedate(5:6)//"-"//Basedate(7:8)//" "//Basedate(9:10)//":"//Basedate(11:12)//":"//Basedate(13:14)
+    
    CALL Pf(NF90_CREATE(name,ior(NF90_CLOBBER,NF90_SHARE),ncid(0)))
    CALL Pf(NF90_DEF_DIM(ncid(0),'time',NF90_UNLIMITED,diid(1)))
    CALL Pf(NF90_DEF_DIM(ncid(0),'lat',ny,diid(2)))
    CALL Pf(NF90_DEF_DIM(ncid(0),'lon',nx,diid(3)))
    CALL Pf(NF90_DEF_VAR(ncid(0),'lat',NF90_FLOAT,[diid(2)],ncid(nf+1)))
    CALL Pf(NF90_DEF_VAR(ncid(0),'lon',NF90_FLOAT,[diid(3)],ncid(nf+2)))
-   CALL Pf(NF90_DEF_VAR(ncid(0),'time',NF90_INT,[diid(1)],ncid(nf+3)))
+   CALL Pf(NF90_DEF_VAR(ncid(0),'time',NF90_FLOAT,[diid(1)],ncid(nf+3)))
    CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+3),'standard_name','time'))
    CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+3),'calendar',"gregorian"))
    CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+3),'delta_t',tda))
@@ -218,18 +225,20 @@ integer, intent(in)    :: ip          !! parameter number
 integer, dimension (3) :: sta
     
 character (len=14), intent(in) :: ad
-integer :: vid, j, t, tda
+integer :: vid, j, t
+real    :: tda
+
 
 if (fc) then
    no = 1-t                           !! t+no=1 : first output
    fc = .false.
 endif
-tda = idelint
+tda = real(idelint)/(60.*60.)
 vid = ip
 if (ncid(vid)>0) then
    sta = [1,1,t+no]
    CALL Pf(NF90_PUT_VAR(ncid(0),ncid(vid),grid,sta))
-   CALL Pf(NF90_PUT_VAR(ncid(0),ncid(nf+3),t*tda,[t+no]))
+   CALL Pf(NF90_PUT_VAR(ncid(0),ncid(nf+3),t*tda + hradd,[t+no])) !time
 else
    write (iu06,*) ' +++ parameter ',vid,' is not available in NetCDF-file'
 endif
@@ -255,4 +264,64 @@ use netcdf
 integer :: en
 if (en/=0) write (iu06,*) ' +++ Error : ', NF90_STRERROR(en)
 end subroutine pf
+
+!######################################
+!#                                    #
+!# Calculates the difference in hrs   #                       
+!# between two dates CDATE1, CDATE2   #                         
+!#                                    #                      
+!#  Ana Carrasco METNO Jan 2015       #                      
+!#                                    #                      
+!######################################
+
+SUBROUTINE DIFFDATEHR(CDATE1, CDATE2, hradd)
+character (len=14) :: CDT1, CDT2, CDT0,CDATE1,CDATE2
+integer itime1(6),itime2(6),itime0(6), SEC,i,yn
+real    hradd
+integer*8 addsec
+
+!  CHANGE DATE TIME TO ENSURE THAT THE SECOND IS LARGER.         
+!
+
+IF (CDATE1 .GT. CDATE2) THEN
+   CDT1 = CDATE2
+   CDT2 = CDATE1
+ELSE IF (CDATE2 .GT. CDATE1) THEN
+   CDT1 = CDATE1
+   CDT2 = CDATE2
+END IF
+
+
+READ(CDT1,'(I4,5I2)')itime1(1),itime1(2),itime1(3),itime1(4),itime1(5),itime1(6)
+READ(CDT2,'(I4,5I2)')itime2(1),itime2(2),itime2(3),itime2(4),itime2(5),itime2(6)
+
+itime0(2)=itime1(2)
+itime0(3)=itime1(3)
+itime0(4)=itime1(4)
+itime0(5)=itime1(5)
+itime0(6)=itime1(6)
+!LOOP OVER YEARS
+yn=abs(itime1(1)-itime2(1))
+addsec=0
+
+if (yn.gt.1) then
+ do i = 1,yn-2
+   !add a year to date CDT1
+   itime0(1)=itime1(1)+i
+   WRITE (CDT0,'(I4.4,5I2.2)')itime0(1),itime0(2),itime0(3),itime0(4),itime0(5),itime0(6)  
+   call difdate (CDT1, CDT0, SEC)   !DATES HAVE TO BE IN CONSECUTIVE YEARS   
+   addsec=addsec+SEC 
+   CDT1=CDT0
+ enddo
+endif
+
+call difdate (CDT1, CDT2, SEC)    !DATES HAVE TO BE IN CONSECUTIVE YEARS.  
+write(iu06,*)'SEC ',SEC
+
+addsec=addsec+SEC 
+write(iu06,*)'addsec ',addsec
+hradd=real(addsec)/(60.0*60.0)
+write(iu06,*)'hradd',hradd
+end subroutine DIFFDATEHR
+
 end module wam_rad_netcdf_metno_module
