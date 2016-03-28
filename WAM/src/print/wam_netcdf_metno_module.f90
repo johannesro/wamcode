@@ -31,7 +31,7 @@ character (len=14), save :: fsd
 real*8, allocatable, dimension (:) :: lat
 real*8, allocatable, dimension (:) :: lon
 character (len=14)       :: Basedate
-real                     :: hradd     
+real*8                     :: hradd     
                  
 public wknco, wkncw, wkncc, pf, nx, ny, hradd
 
@@ -127,6 +127,13 @@ IF (ncid(0)<0) THEN
    vl(4, 5) = ''
    vmin(5)  = 0.
    vmax(5)  = 0.1
+
+   vl(1, 6) = 'DEPTH'
+   vl(2, 6) = 'water depth'
+   vl(3, 6) = 'water depth'
+   vl(4, 6) = 'm'
+   vmin(6)  = 0
+   vmax(6)  = 8000
 
    vl(1, 9) = 'hs'
    vl(2, 9) = 'sea_surface_wave_significant_height'
@@ -350,7 +357,7 @@ IF (ncid(0)<0) THEN
    did = [3,2,1]
    i = dt
    WRITE(tda,'("0000-00-00 (",2(i2.2,":"),i2.2,")")')i/3600,MOD(i/60,60),MOD(i,60)
-   Basedate = '19700101000000'
+   Basedate = '20010101000000'
    call DIFFDATEHR(Basedate, sd ,hradd)
    
    tua="hours since "//Basedate(1:4)//"-"//Basedate(5:6)//"-"//Basedate(7:8)//" "//Basedate(9:10)//":"//Basedate(11:12)//":"//Basedate(13:14)
@@ -360,16 +367,11 @@ IF (ncid(0)<0) THEN
    CALL Pf(NF90_DEF_DIM(ncid(0),'rlat',ny,diid(2)))
    CALL Pf(NF90_DEF_DIM(ncid(0),'rlon',nx,diid(3)))
    CALL Pf(NF90_DEF_VAR(ncid(0),'rlat',NF90_FLOAT,[diid(2)],ncid(nf+1)))
-   CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+1),'axis','Y'))
-   CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+1),'long_name','rotated latitude'))
-   CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+1),'standard_name','grid_latitude'))
-   CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+1),'units','degrees'))
+   CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+1),'axis','Y'))  
    CALL Pf(NF90_DEF_VAR(ncid(0),'rlon',NF90_FLOAT,[diid(3)],ncid(nf+2)))
    CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+2),'axis','X'))
-   CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+2),'long_name','rotated longitude'))
-   CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+2),'standard_name','grid_longitude'))
-   CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+2),'units','degrees'))
-   CALL Pf(NF90_DEF_VAR(ncid(0),'time',NF90_FLOAT,[diid(1)],ncid(nf+3)))
+!   CALL Pf(NF90_DEF_VAR(ncid(0),'time',NF90_FLOAT,[diid(1)],ncid(nf+3)))
+   CALL Pf(NF90_DEF_VAR(ncid(0),'time',NF90_DOUBLE,[diid(1)],ncid(nf+3)))
    CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+3),'axis','T'))
    CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+3),'standard_name','time'))
    CALL Pf(NF90_PUT_ATT(ncid(0),ncid(nf+3),'calendar',"gregorian"))
@@ -485,8 +487,8 @@ end subroutine pf
 SUBROUTINE DIFFDATEHR(CDATE1, CDATE2, hradd)
 character (len=14) :: CDT1, CDT2, CDT0,CDATE1,CDATE2
 integer itime1(6),itime2(6),itime0(6), SEC,i,yn
-real    hradd
-integer*8 addsec
+real*8    hradd
+real*8 addsec
 
 !  CHANGE DATE TIME TO ENSURE THAT THE SECOND IS LARGER.         
 !
@@ -510,10 +512,10 @@ itime0(5)=itime1(5)
 itime0(6)=itime1(6)
 !LOOP OVER YEARS
 yn=abs(itime1(1)-itime2(1))
-addsec=0
+addsec=0.0
 
 if (yn.gt.1) then
- do i = 1,yn-2
+ do i = 1,yn-1
    !add a year to date CDT1
    itime0(1)=itime1(1)+i
    WRITE (CDT0,'(I4.4,5I2.2)')itime0(1),itime0(2),itime0(3),itime0(4),itime0(5),itime0(6)  
@@ -528,7 +530,8 @@ write(iu06,*)'SEC ',SEC
 
 addsec=addsec+SEC 
 write(iu06,*)'addsec ',addsec
-hradd=real(addsec)/(60.0*60.0)
+!hradd=real(addsec)/(60.0*60.0)
+hradd=addsec/(60.0*60.0)
 write(iu06,*)'hradd',hradd
 end subroutine DIFFDATEHR
 
