@@ -21,9 +21,8 @@ PROGRAM make_spec_netcdf_metno
 !     -------                                                                  !
 !                                                                              !
 !       THIS PROGRAM READS THE BINARY WAM MODEL SPECTRA OUTPUTS AND EXTRACTS   !
-!       SPECTRA AT SPECIFIED LOCATIONS AND TIMES. THEN IT ROTATES THE SPECRA   !
+!       SPECTRA AT SPECIFIED LOCATIONS AND TIMES. THEN IT ROTATES THE SPECTRA  !
 !       TO  THE TRUE NORTH AND WRITES THEM IN A NETCDF FILE.                   !
-!       THIS PROGRAM ONLY WORKS FOR THE SPECIFIC ROTATION OF WAM10 AT METNO.   !
 !                                                                              !
 !     REFERENCE.                                                               !
 !     ----------                                                               !
@@ -72,7 +71,7 @@ IMPLICIT NONE
 INTEGER     :: IFAIL,NFAIL     !! OPEN ERROR
 LOGICAL     :: IEOF            !! END OF FILE ENCOUNTED IN SUB. READ_SPECTRUM
 LOGICAL,SAVE :: FRSTIME = .TRUE.
-INTEGER            :: I, tstep
+INTEGER            :: I, tstep,ios
 character (len=16) :: xfile
 CHARACTER (LEN=40) :: HEADER
 
@@ -80,8 +79,8 @@ REAL, PARAMETER :: PI = 3.1415927    !! PI.
 REAL, PARAMETER :: ZPI = 2.*PI       !! 2.* PI.
 REAL, PARAMETER :: DEG = 180./PI     !! COVERTION FROM RADIANS TO DEGREE
 REAL, PARAMETER :: RAD = PI/180.     !! COVERTION FROM DEGREE TO RADIANS
-REAL, PARAMETER    :: xcen  =  -40.000000  !! Longitude of center point in rotated sph. grid for WAM10 at METNO
-REAL, PARAMETER    :: ycen  =   68.000000  !! Latitude of center point in rotated sph. grid for WAM10 at METNO
+REAL            :: xcen              !! Longitude of center point in rotated grid
+REAL            :: ycen              !! Latitude of center point in rotated grid
 real, allocatable, dimension (:)     :: TRUELONG
 real, allocatable, dimension (:)     :: TRUELAT
 real, allocatable, dimension (:)     :: ROTANGLE
@@ -96,8 +95,17 @@ real, allocatable, dimension (:)     :: ROTANGLE
 FILE05 = 'Spectra_User'
 FILE06 = 'Spectra_Prot'
 
-!     1.2  OPEN USER FILE AND READ USER INPUT.                                 !
-
+!     1.2.0  OPEN ASCI FILE WITH THE ROTATION INFORMATION                        !
+namelist /ROTATIONINFOSPC/ xcen, ycen            
+OPEN (UNIT=10, FILE='ROTATIONINFOSPC', FORM="FORMATTED", STATUS="OLD")
+read (10,ROTATIONINFOSPC,iostat=ios)
+if (ios==0) then
+   write (*,*) ' +++ read info file  successfully !'
+else
+   write (*,*) ' +++ read error in info file INPUTINFO !'
+endif
+close (10)
+!     1.2.1  OPEN USER FILE AND READ USER INPUT.        
 OPEN (UNIT=IU06, FILE=FILE06, FORM='FORMATTED', STATUS="UNKNOWN")
 CALL READ_SPECTRA_USER
 CALL PRINT_SPECTRA_USER
