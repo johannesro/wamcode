@@ -1,0 +1,4 @@
+&ROTATIONINFOSPC
+xcen = -40.0,          !! Longitude of center point in rotated grid
+ycen = 68.0            !! Latitude of center point in rotated  grid
+/end
