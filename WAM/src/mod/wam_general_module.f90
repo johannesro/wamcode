@@ -10,10 +10,6 @@ MODULE WAM_GENERAL_MODULE
 !       for ocean wave dissipation in CY29R1. ECMWF MEMORANDUM RESEARCH        !
 !       DEPARTMENT:April 7, 2005 File: R60.9/JB/0516                           !
 !                                                                              !
-!    MAY 2015                                                                  !
-!       CHARNOCK CONSTANT CHANGED TO ALPHA =  0.0060. (from CY40R3 version)    !
-!       IF(ML.GT.30) THEN ALPHA =0.006 ELSE ALPHA = 0.0075. AT MET Norway we   !
-!       used ML=36.                                                            !
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ !
 !                                                                              !
 !     A.  EXTERNALS.                                                           !
@@ -61,8 +57,8 @@ REAL, PARAMETER :: ROWATER = 1000.      !! WATER DENSITY
 REAL, PARAMETER :: XEPS = ROAIR/ROWATER
 REAL, PARAMETER :: XINVEPS = 1./XEPS
 REAL, PARAMETER :: BETAMAX = 1.20       !! PARAMETER FOR WIND INPUT.
-REAL, PARAMETER :: ZALP    = 0.008      !! SHIFTS GROWTH CURVE from 0.011
-REAL, PARAMETER :: ALPHA   = 0.0060     !! CHARNOCK CONSTANT (0.006 to 0075)
+REAL, PARAMETER :: ZALP    = 0.0110     !! SHIFTS GROWTH CURVE.
+REAL, PARAMETER :: ALPHA   = 0.0095     !! CHARNOCK CONSTANT.
 REAL, PARAMETER :: XKAPPA  = 0.40       !! VON KARMAN CONSTANT.
 REAL, PARAMETER :: XNLEV   = 10.0       !! WINDSPEED REF. LEVEL 
 REAL, PARAMETER :: RCHAR   = 0.018      !! DEFAULT CHARNOCK VALUE FOR ICE AND
